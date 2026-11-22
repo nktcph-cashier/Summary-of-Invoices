@@ -639,23 +639,24 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
   .top .actions .btn:not(#export):focus-visible {outline:3px solid var(--action-light);outline-offset:3px;}
 }
 </style>
+<style>body:not(.cloud-ready) #print-document{display:none!important}</style>
 </head>
 <body class="auth-checking">
 <div id="cloud-auth" class="cloud-auth">
 <div class="auth-wait" role="status" aria-live="polite" aria-label="กำลังเข้าสู่ระบบ">
  <div class="auth-wait-spinner" aria-hidden="true"></div>
- <div class="auth-wait-message">กำลังเชื่อมต่อ Firebase…</div>
+ <div class="auth-wait-message">กำลังตรวจสอบการเข้าสู่ระบบ…</div>
 </div>
 <div class="cloud-login">
 <div class="login-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h10l3 3v15H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v4h4M8 12h8M8 16h8"/></svg></div>
-<h2>เชื่อมต่อฐานข้อมูลไม่สำเร็จ</h2>
+<h2>เข้าสู่ระบบ</h2>
 <details id="cloud-setup" hidden><summary>Firebase</summary></details>
-<button type="button" id="cloud-login" class="btn primary">ลองเชื่อมต่ออีกครั้ง</button>
+<form id="login-form" class="login-fields"><label for="login-user">ชื่อผู้ใช้</label><input id="login-user" name="username" autocomplete="username" placeholder="USER001" required maxlength="7" autocapitalize="characters" spellcheck="false"><label for="login-password">รหัสผ่าน</label><input id="login-password" name="password" type="password" autocomplete="current-password" required><button type="submit" id="cloud-login" class="btn primary">เข้าสู่ระบบ</button></form>
 <p id="cloud-auth-status" role="status" aria-live="polite"></p>
 </div></div>
 <div class="cloud-toolbar"><span id="cloud-status">ยังไม่เชื่อมฐานข้อมูล</span><button class="btn" id="cloud-import" type="button" hidden>นำเข้าข้อมูลเดิมจากเครื่องนี้</button><button class="btn" id="cloud-refresh" type="button" hidden>โหลดข้อมูลใหม่</button></div>
 <main class="wrap">
-<header class="top"><div class="brand"><div><h1>ใบสรุปการนำส่งเงิน</h1><p class="subtitle">บันทึกเลขที่ใบเสร็จ รายการ และยอดเงินประจำวัน</p><div id="connection-warning" role="status" hidden></div></div></div><div class="action-strip"><div class="actions"><button class="btn" id="copy-previous">⧉ คัดลอกข้อมูล</button><button class="btn" id="export">⇩ ส่งออก CSV</button><button class="btn" id="refresh-main" type="button" title="โหลดข้อมูลล่าสุด">↻ รีเฟรช</button><button class="btn danger" id="reset">✕ ล้างข้อมูล</button><button class="btn" id="lock">🔒 ล็อกวันนี้</button></div><div class="print-position"><button class="btn" id="export-excel" type="button">⇩ ส่งออก Excel</button><button class="btn" id="print" type="button">⎙ พิมพ์</button></div></div></header>
+<header class="top"><div class="brand"><div><h1>ใบสรุปการนำส่งเงิน</h1><p class="subtitle">บันทึกเลขที่ใบเสร็จ รายการ และยอดเงินประจำวัน</p><div id="connection-warning" role="status" hidden></div></div></div><div class="action-strip"><div class="actions"><button class="btn" id="cloud-logout" type="button">ออกจากระบบ</button><button class="btn" id="copy-previous">⧉ คัดลอกข้อมูล</button><button class="btn" id="export">⇩ ส่งออก CSV</button><button class="btn" id="refresh-main" type="button" title="โหลดข้อมูลล่าสุด">↻ รีเฟรช</button><button class="btn danger" id="reset">✕ ล้างข้อมูล</button><button class="btn" id="lock">🔒 ล็อกวันนี้</button></div><div class="print-position"><button class="btn" id="export-excel" type="button">⇩ ส่งออก Excel</button><button class="btn" id="print" type="button">⎙ พิมพ์</button></div></div></header>
 <div class="workspace"><div class="ledger-main">
 <section class="summary"><div class="stat"><div class="caption">ยอดเงินสด</div><div class="figure"><span id="card-cash">0.00</span> <span class="unit">บาท</span></div></div><div class="stat"><div class="caption">ยอดนำฝาก/โอน</div><div class="figure"><span id="card-transfer">0.00</span> <span class="unit">บาท</span></div></div><div class="stat net"><div class="caption">ยอดรวมประจำวัน</div><div class="figure"><span id="card-total">0.00</span> <span class="unit">บาท</span></div></div></section>
 <div class="lock-banner" id="lock-banner" role="status">🔒 วันที่นี้ถูกล็อก ต้องปลดล็อกก่อนแก้ไขข้อมูล</div>
@@ -807,11 +808,14 @@ body.cloud-ready .cloud-auth{display:none!important}.cloud-toolbar{display:flex;
 <script>
 const firebaseConfig={"apiKey":"AIzaSyC6TRRm5nsWTmPtla2lrtJ0gprYtKNBUT8","authDomain":"nktcph-cashier-7a9d6.firebaseapp.com","databaseURL":"https://nktcph-cashier-7a9d6-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"nktcph-cashier-7a9d6","storageBucket":"nktcph-cashier-7a9d6.firebasestorage.app","messagingSenderId":"692298460691","appId":"1:692298460691:web:8ef95240a1d0654e0699e6","measurementId":"G-2TKX2TTKKJ"};
 const CLOUD_URL=firebaseConfig.databaseURL, CLOUD_PUBLISHABLE_KEY=firebaseConfig.apiKey;
+const LOGIN_NAMES=Array.from({length:6},(_,i)=>'USER00'+(i+1));
+const LOGIN_DOMAIN='login.example.invalid';
+function loginName(u){const email=(u?.email||'').toLowerCase();if(u?.isAnonymous||!email.endsWith('@'+LOGIN_DOMAIN))return null;const name=email.split('@')[0].toUpperCase();return LOGIN_NAMES.includes(name)?name:null;}
 let cloudClient=null, fbDb=null, fbAuth=null;
 try{
  firebase.initializeApp(firebaseConfig);fbDb=firebase.database();fbAuth=firebase.auth();
  const authReady=new Promise(resolve=>{const off=fbAuth.onAuthStateChanged(()=>{off();resolve()},()=>resolve())});
- cloudClient={auth:{async getUser(){await authReady;if(fbAuth.currentUser&&!fbAuth.currentUser.isAnonymous)await fbAuth.signOut();const u=fbAuth.currentUser||(await fbAuth.signInAnonymously()).user;return {data:{user:{id:u.uid,label:'ANON-'+u.uid.slice(0,16)}}}}},removeChannel:async c=>c.close()};
+ cloudClient={auth:{async getUser(){await authReady;const u=fbAuth.currentUser;const label=loginName(u);if(!label){if(u)await fbAuth.signOut();return {data:{user:null}}}return {data:{user:{id:u.uid,label}}}}},removeChannel:async c=>c.close()};
 }catch(e){console.error('Firebase initialization',e)}
 const dayRef=day=>fbDb.ref('remittance_days/'+day);
 function decodeDay(row){if(!row)return null;return {day:row.day,main_data:row.main_json==null?null:JSON.parse(row.main_json),transfer_data:row.transfer_json==null?null:JSON.parse(row.transfer_json)}}
@@ -1025,9 +1029,11 @@ async function cloudLoadSelectedDay(day){
  return true;
 }
 async function cloudImport(){alert('ปิดการนำเข้าข้อมูลจากเบราว์เซอร์เพื่อป้องกันการเขียนทับข้อมูลกลาง')}
-// Anonymous authentication: preserve the browser UID and never prompt for credentials.
+// Firebase password authentication with internal username aliases.
 async function cloudStart(){
  cloudUser=(await cloudClient.auth.getUser()).data.user;
+ if(!cloudUser)return;
+ if(!(await fbDb.ref("allowed_users/"+cloudUser.id).get()).val()){await fbAuth.signOut();cloudUser=null;throw new Error("บัญชีนี้ยังไม่ได้รับอนุญาต");}
  if(cloudPending.size&&cloudPendingOwner!==cloudUser.id)throw new Error('มีข้อมูลรอบันทึกจาก UID เดิม');
  if(!await cloudLoad())throw new Error('ยังโหลดข้อมูลกลางไม่สำเร็จ');
  document.body.classList.remove('auth-login');
@@ -1038,7 +1044,22 @@ async function cloudStart(){
 }
 document.addEventListener('DOMContentLoaded',async()=>{
  document.getElementById('cloud-setup').hidden=true;
- document.getElementById('cloud-login').onclick=()=>location.reload();
+ const form=document.getElementById('login-form'), loginButton=document.getElementById('cloud-login');
+ form.addEventListener('submit',async e=>{
+  e.preventDefault();const name=document.getElementById('login-user').value.trim().toUpperCase(),pw=document.getElementById('login-password');
+  if(!LOGIN_NAMES.includes(name)){cloudAuthStatus('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');return}
+  loginButton.disabled=true;cloudAuthStatus('');
+  try{await fbAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);await fbAuth.signInWithEmailAndPassword(name.toLowerCase()+'@'+LOGIN_DOMAIN,pw.value);pw.value='';await cloudStart();}
+  catch(err){console.error('Login failed',err.code||err.message);if(!cloudReady&&fbAuth.currentUser)await fbAuth.signOut().catch(()=>{});cloudUser=null;cloudAuthStatus(err.code?.startsWith('auth/')&&err.code!=='auth/network-request-failed'?'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบชื่อผู้ใช้ รหัสผ่าน และการตั้งค่าบัญชี':'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อและสิทธิ์ Firebase');}
+  finally{loginButton.disabled=false;}
+ });
+ document.getElementById('cloud-logout').onclick=()=>{document.getElementById('logout-overlay').hidden=false;};
+ document.getElementById('logout-cancel').onclick=()=>{document.getElementById('logout-overlay').hidden=true;};
+ document.getElementById('logout-confirm').onclick=async()=>{
+  document.getElementById('logout-overlay').hidden=true;document.getElementById('logout-wait-overlay').hidden=false;
+  try{document.activeElement?.blur();if(cloudPending.size)await cloudFlush();await cloudChain;if(cloudPending.size||cloudTimer)throw new Error('ยังมีข้อมูลรอบันทึก');await window.remittancePresenceStop?.();await window.remittanceOnlineStop?.();await fbAuth.signOut();location.reload();}
+  catch(err){document.getElementById('logout-wait-overlay').hidden=true;cloudStatus('⚠ ออกจากระบบไม่สำเร็จ: '+err.message);alert('ออกจากระบบไม่สำเร็จ กรุณาตรวจสอบการบันทึกข้อมูล');}
+ };
  if(!cloudClient){document.body.classList.remove('auth-checking');document.body.classList.add('auth-login');cloudAuthStatus('โหลด Firebase SDK ไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ต');return}
  try{cloudInitialBackup=window.cloudLocalBackup()}catch(err){console.warn('Local backup not available:',err);cloudInitialBackup=null}
  const showRefreshConfirmation=()=>new Promise(resolve=>{
@@ -1912,7 +1933,7 @@ window.addEventListener('beforeprint',preparePrint);
 /* Independent session roster: no ledger or database writes. */
 (()=>{
  const $=id=>document.getElementById(id), panel=$('online-users');
- const known=[];
+ const known=LOGIN_NAMES;
  const labelFor=name=>name;
  const key=globalThis.crypto?.randomUUID?.()||Date.now()+'-'+Math.random();
  let channel=null, identity=null, connected=false, synced=false, active=new Set(), retry=0;
@@ -1929,7 +1950,7 @@ window.addEventListener('beforeprint',preparePrint);
   $('online-inline').textContent=ready?'ออนไลน์ '+active.size:'ออนไลน์ —';
   $('ou-connection').hidden=ready;
   $('ou-connection').textContent='กำลังเชื่อมต่อ / ตรวจสอบสถานะ';
-  $('ou-list').replaceChildren(...names.filter(name=>ready&&active.has(name)).map(name=>{
+  $('ou-list').replaceChildren(...names.map(name=>{
    const row=document.createElement('div'),dot=document.createElement('span'),detail=document.createElement('div'),label=document.createElement('span'),state=document.createElement('span');
    const on=ready&&active.has(name);row.className='ou-row'+(name===me?' self':'')+(on?' on':'');
    dot.className='ou-dot';detail.className='ou-detail';label.className='ou-label';label.textContent=labelFor(name,on);state.className='ou-state';state.textContent=ready?(on?'ออนไลน์':'ออฟไลน์'):'รอตรวจสอบ';detail.append(label,state);row.append(dot,detail);return row;
