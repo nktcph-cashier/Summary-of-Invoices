@@ -640,7 +640,7 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
 }
 </style>
 <style>body:not(.cloud-ready) #print-document{display:none!important}</style>
-<style>.transfer-table col.datecol{width:23%}.transfer-table col.valuecol{width:15%}.transfer-table col.qrcol{width:17%}.transfer-table col.notecol{width:23%}.transfer-table col.managecol{width:7%}</style>
+
 <style id="transfer-font-consistency">
 .transfer-table tbody .thai-date-display,
 .transfer-table tbody .note-output { font-family: inherit !important; font-size: 15px !important; font-weight: 400 !important; }
@@ -671,11 +671,11 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
 <div class="table-scroll"><table aria-label="ใบสรุปการนำส่งเงิน"><colgroup><col class="book"><col class="receipt"><col class="description"><col class="amount"><col class="amount"><col class="manage"></colgroup><thead><tr><th rowspan="2">เล่มที่</th><th rowspan="2">เลขที่<br>ใบเสร็จรับเงิน</th><th rowspan="2">รายการ</th><th colspan="2">จำนวนเงิน</th><th rowspan="2">จัดการ</th></tr><tr><th>เงินสด</th><th>นำฝาก/โอน</th></tr></thead><tbody id="rows"></tbody><tbody><tr class="action-row"><td colspan="6"><button class="add" id="add">＋ เพิ่มรายการตารางบน</button></td></tr></tbody><tfoot><tr class="linked-row"><td></td><td></td><td>เงินโอน/บัตรเครดิต</td><td class="money-out">–</td><td class="money-out" id="linked-transfer">0.00</td><td></td></tr><tr class="linked-row"><td></td><td></td><td>นำฝากธนาคาร</td><td class="money-out">–</td><td class="money-out" id="linked-bank">0.00</td><td></td></tr><tr class="total-row"><td colspan="3" style="text-align:center">รวมรายรับประจำวัน</td><td class="money-out" id="total-cash">0.00</td><td class="money-out" id="total-transfer">0.00</td><td></td></tr></tfoot></table></div></section>
 <section class="panel transfer-panel"><div class="panel-head"><div><h2>รายละเอียดเงินโอน</h2><p class="hint" id="transfer-month-title" hidden></p><p class="transfer-date-help">เลือกวันที่ย้อนหลังในแต่ละแถวได้ • วันที่ในตารางนี้เป็นวันที่รายการ ไม่เปลี่ยนวันที่บันทึกด้านซ้าย • รวม QR แยกตามกลุ่มวันที่</p></div><span class="saved" id="transfer-saved">บันทึกอัตโนมัติ</span></div>
 
-<div class="table-scroll"><table class="transfer-table" aria-label="รายละเอียดเงินโอน"><colgroup><col class="datecol"><col class="valuecol"><col class="valuecol"><col class="qrcol"><col class="notecol"><col class="managecol"></colgroup><thead><tr><th>วัน-เดือน-ปี</th><th>N/A</th><th>โอน</th><th>รวม QR (QR CODE)</th><th>หมายเหตุ</th><th>จัดการ</th></tr></thead><tbody id="transfer-rows"></tbody><tbody><tr class="action-row"><td colspan="6"><button class="add" id="add-transfer">＋ เพิ่มรายการเงินโอน</button></td></tr></tbody><tfoot>
-<tr><td><strong>รวมเงิน N/A</strong></td><td class="money-out" id="sum-na">0.00</td><td class="money-out">–</td><td class="money-out" id="sum-qr">0.00</td><td colspan="2"></td></tr>
-<tr class="transfer-total-row"><td><strong>รวมเงินโอน</strong></td><td class="money-out" id="sum-transfers">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
-<tr class="bank-row"><td><strong>คงเหลือนำฝากธนาคาร</strong></td><td class="bank-num" id="bank-net">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
-<tr class="sender-row"><td colspan="6"><div class="sender-picker-wrap"><label for="sender-name">ผู้นำส่งเงิน</label><select class="sender-picker" id="sender-name" aria-label="เลือกผู้นำส่งเงิน"><option value="">— เลือกชื่อผู้นำส่งเงิน —</option><option value="นายณรงค์ศักดิ์  เชื้อบุญมี">นายณรงค์ศักดิ์  เชื้อบุญมี</option><option value="นางสาวณัฐนันท์  นวลจันทร์เพ็ญ">นางสาวณัฐนันท์  นวลจันทร์เพ็ญ</option><option value="นางสาวเกวลิน  ยวนแห่ว">นางสาวเกวลิน  ยวนแห่ว</option></select></div></td></tr>
+<div class="table-scroll"><table class="transfer-table" aria-label="รายละเอียดเงินโอน"><colgroup><col class="datecol"><col class="receiptcol"><col class="valuecol"><col class="valuecol"><col class="qrcol"><col class="notecol"><col class="managecol"></colgroup><thead><tr><th>วัน-เดือน-ปี</th><th>ใบเสร็จเล่มที่/เลขที่</th><th>N/A</th><th>โอน</th><th>รวม QR (QR CODE)</th><th>หมายเหตุ</th><th>จัดการ</th></tr></thead><tbody id="transfer-rows"></tbody><tbody><tr class="action-row"><td colspan="7"><button class="add" id="add-transfer">＋ เพิ่มรายการเงินโอน</button></td></tr></tbody><tfoot>
+<tr><td><strong>รวมเงิน N/A</strong></td><td></td><td class="money-out" id="sum-na">0.00</td><td class="money-out">–</td><td class="money-out" id="sum-qr">0.00</td><td colspan="2"></td></tr>
+<tr class="transfer-total-row"><td><strong>รวมเงินโอน</strong></td><td></td><td class="money-out" id="sum-transfers">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
+<tr class="bank-row"><td colspan="2"><strong>คงเหลือนำฝากธนาคาร</strong></td><td class="bank-num" id="bank-net">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
+<tr class="sender-row"><td colspan="7"><div class="sender-picker-wrap"><label for="sender-name">ผู้นำส่งเงิน</label><select class="sender-picker" id="sender-name" aria-label="เลือกผู้นำส่งเงิน"><option value="">— เลือกชื่อผู้นำส่งเงิน —</option><option value="นายณรงค์ศักดิ์  เชื้อบุญมี">นายณรงค์ศักดิ์  เชื้อบุญมี</option><option value="นางสาวณัฐนันท์  นวลจันทร์เพ็ญ">นางสาวณัฐนันท์  นวลจันทร์เพ็ญ</option><option value="นางสาวเกวลิน  ยวนแห่ว">นางสาวเกวลิน  ยวนแห่ว</option></select></div></td></tr>
 </tfoot></table></div><div class="transfer-notice" id="duplicate-notice" role="alert" aria-live="polite"></div></section>
 <div class="below">● ทุกบัญชีที่ได้รับอนุญาตใช้ฐานข้อมูลกลางเดียวกัน • บันทึกแล้วเครื่องอื่นจะเห็นโดยอัตโนมัติ • หากแก้ตารางเดียวกันพร้อมกัน ข้อมูลที่บันทึกทีหลังอาจทับการแก้ไขก่อนหน้า • วัน/เวลาที่ล็อกยังต้องปลดล็อกก่อนแก้ไข</div>
 </div><aside class="sidebar"><div class="sidebar-head"><div class="eyebrow period-heading"><span>เลือกช่วงเวลา</span><span class="connection-inline" role="status" aria-live="polite"><span id="connection-state" data-state="waiting">กำลังเชื่อมต่อ…</span><span class="connection-separator" aria-hidden="true">·</span><span id="online-inline">ออนไลน์ —</span></span></div><h2>เลือกเดือนและวันที่</h2><label for="year">ปี พ.ศ.</label><div class="year-controls"><button id="prev-year">‹</button><input id="year" type="number" min="2400" max="2900"><button id="next-year">›</button></div></div><nav class="month-list" id="months"></nav><p class="holiday-caveat" id="holiday-caveat" style="padding:0 15px 10px;margin:0;font-size:11px;color:#5b6772;line-height:1.6">ชมพู = เสาร์–อาทิตย์ • แดง = วันหยุดราชการ • ทุกวันบันทึกข้อมูลได้</p><div class="annual-summary"><strong>สรุปยอดทั้งปี</strong><small>เงินสด</small><strong id="annual-cash">0.00</strong><small>นำฝาก/โอน</small><strong id="annual-transfer">0.00</strong><small>รวม</small><strong id="annual-total">0.00</strong><button class="btn" id="export-year">⇩ ส่งออก CSV ทั้งปี</button></div></aside><aside id="online-users" aria-label="สถานะผู้ใช้งาน" hidden><div class="ou-panel"><div class="ou-current"><span id="ou-current-dot" class="ou-dot"></span><div class="ou-detail"><small>ผู้ใช้ปัจจุบัน</small><strong id="ou-name">—</strong><span id="ou-current-state" class="ou-state">รอตรวจสอบ</span></div></div><div class="ou-header"><div class="ou-heading">ผู้ใช้งานออนไลน์</div><div id="ou-count">—</div></div><div id="ou-list"></div><div id="ou-connection" role="status">กำลังเชื่อมต่อ Realtime…</div></div></aside></div>
@@ -687,7 +687,7 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
       <button type="button" class="btn primary" id="refresh-confirm">ตกลง</button>
     </div>
   </div>
-</div><div id="logout-wait-overlay" role="status" aria-live="polite" aria-label="กำลังออกจากระบบ" hidden>
+</div><div id="idle-warning" role="status" aria-live="polite" hidden style="position:fixed;right:20px;bottom:20px;z-index:10040;background:#fff8df;color:#633d00;border:1px solid #d6a54a;border-radius:12px;padding:16px;box-shadow:0 8px 25px #0002;max-width:340px">จะออกจากระบบอัตโนมัติภายใน 1 นาที หากต้องการใช้งานต่อให้ขยับเมาส์หรือกดปุ่ม <button type="button" class="btn" id="idle-continue">ใช้งานต่อ</button></div><div id="idle-lock" class="logout-overlay" role="alertdialog" aria-modal="true" aria-labelledby="idle-lock-title" hidden style="z-index:10070;background:#eef3f6"><div class="logout-dialog"><h3 id="idle-lock-title">หมดเวลาใช้งาน</h3><p id="idle-lock-message">กำลังบันทึกข้อมูลและออกจากระบบ...</p><button type="button" class="btn" id="idle-retry" hidden>ลองบันทึกและออกจากระบบอีกครั้ง</button></div></div><div id="logout-wait-overlay" role="status" aria-live="polite" aria-label="กำลังออกจากระบบ" hidden>
   <div class="logout-wait-card"><span class="logout-wait-spinner" aria-hidden="true"></span><span>กำลังออกจากระบบ...</span></div>
 </div><div class="logout-overlay" id="logout-overlay" role="presentation" hidden>
   <div class="logout-dialog" role="alertdialog" aria-modal="true" aria-labelledby="logout-title">
@@ -1037,6 +1037,47 @@ async function cloudLoadSelectedDay(day){
  return true;
 }
 async function cloudImport(){alert('ปิดการนำเข้าข้อมูลจากเบราว์เซอร์เพื่อป้องกันการเขียนทับข้อมูลกลาง')}
+// Inactivity timeout: use wall-clock deadlines, not interval counts.
+const IDLE_MS=30*60*1000, IDLE_WARNING_MS=60*1000;
+let idleDeadline=0,idleUid=null,idleExpired=false,logoutRunning=false;
+const idleKey='remittance.idle.deadline.v1';
+function idleStore(){try{sessionStorage.setItem(idleKey,JSON.stringify({uid:idleUid,deadline:idleDeadline}))}catch(e){}}
+function idleStart(){
+ idleUid=cloudUser.id;idleExpired=false;idleDeadline=Date.now()+IDLE_MS;
+ try{const old=JSON.parse(sessionStorage.getItem(idleKey)||'null');if(old?.uid===idleUid&&Number.isFinite(old.deadline))idleDeadline=Math.min(idleDeadline,old.deadline)}catch(e){}
+ idleStore();idleCheck();
+}
+function idleCheck(){
+ if(!idleUid||!cloudReady||idleExpired||logoutRunning)return;
+ const remaining=idleDeadline-Date.now();
+ if(remaining<=0){idleExpired=true;document.getElementById('idle-warning').hidden=true;void performLogout(true);return;}
+ document.getElementById('idle-warning').hidden=remaining>IDLE_WARNING_MS;
+}
+function idleActivity(e){
+ if(!e.isTrusted||!idleUid||!cloudReady||idleExpired||logoutRunning)return;
+ if(Date.now()>=idleDeadline){idleCheck();return;}
+ idleDeadline=Date.now()+IDLE_MS;idleStore();document.getElementById('idle-warning').hidden=true;
+}
+for(const event of ['pointermove','pointerdown','keydown','input','touchstart','wheel'])document.addEventListener(event,idleActivity,{capture:true,passive:true});
+setInterval(idleCheck,1000);
+document.addEventListener('visibilitychange',idleCheck);window.addEventListener('focus',idleCheck);window.addEventListener('pageshow',idleCheck);
+async function performLogout(automatic){
+ if(logoutRunning)return;logoutRunning=true;
+ const lock=document.getElementById('idle-lock'),message=document.getElementById('idle-lock-message'),retry=document.getElementById('idle-retry');
+ document.getElementById('logout-overlay').hidden=true;document.getElementById('idle-warning').hidden=true;
+ if(automatic){idleExpired=true;lock.hidden=false;retry.hidden=true;message.textContent='กำลังบันทึกข้อมูลและออกจากระบบ...';document.activeElement?.blur();for(const el of document.querySelectorAll('body > *')){if(el!==lock&&!el.contains(lock)&&!['SCRIPT','STYLE'].includes(el.tagName))el.inert=true;}}
+ else document.getElementById('logout-wait-overlay').hidden=false;
+ try{
+  document.activeElement?.blur();if(cloudPending.size)await cloudFlush();await cloudChain;if(cloudPending.size||cloudTimer)throw new Error('ยังมีข้อมูลรอบันทึก');
+  document.body.classList.remove('cloud-ready');await window.remittancePresenceStop?.();await window.remittanceOnlineStop?.();await fbAuth.signOut();
+  try{sessionStorage.removeItem(idleKey)}catch(e){}location.reload();
+ }catch(err){
+  logoutRunning=false;document.getElementById('logout-wait-overlay').hidden=true;cloudStatus('⚠ ออกจากระบบไม่สำเร็จ: '+err.message);
+  if(automatic){message.textContent='ยังบันทึกข้อมูลหรือออกจากระบบไม่สำเร็จ หน้าจอถูกล็อกไว้ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง';retry.hidden=false;}
+  else {document.body.classList.add('cloud-ready');alert('ออกจากระบบไม่สำเร็จ กรุณาตรวจสอบการบันทึกข้อมูล');}
+ }
+}
+
 // Firebase password authentication with internal username aliases.
 async function cloudStart(){
  cloudUser=(await cloudClient.auth.getUser()).data.user;
@@ -1049,6 +1090,7 @@ async function cloudStart(){
  cloudStartLive();
  window.remittancePresenceStart?.();
  document.getElementById('cloud-import').hidden=true;
+ idleStart();
 }
 document.addEventListener('DOMContentLoaded',async()=>{
  document.getElementById('cloud-setup').hidden=true;
@@ -1057,17 +1099,15 @@ document.addEventListener('DOMContentLoaded',async()=>{
   e.preventDefault();const name=document.getElementById('login-user').value.trim().toUpperCase(),pw=document.getElementById('login-password');
   if(!LOGIN_NAMES.includes(name)){cloudAuthStatus('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');return}
   loginButton.disabled=true;cloudAuthStatus('');
-  try{await fbAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);await fbAuth.signInWithEmailAndPassword(name.toLowerCase()+'@'+LOGIN_DOMAIN,pw.value);pw.value='';await cloudStart();}
+  try{await fbAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);await fbAuth.signInWithEmailAndPassword(name.toLowerCase()+'@'+LOGIN_DOMAIN,pw.value);pw.value='';try{sessionStorage.removeItem(idleKey)}catch(e){}await cloudStart();}
   catch(err){console.error('Login failed',err.code||err.message);if(!cloudReady&&fbAuth.currentUser)await fbAuth.signOut().catch(()=>{});cloudUser=null;cloudAuthStatus(err.code?.startsWith('auth/')&&err.code!=='auth/network-request-failed'?'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบชื่อผู้ใช้ รหัสผ่าน และการตั้งค่าบัญชี':'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อและสิทธิ์ Firebase');}
   finally{loginButton.disabled=false;}
  });
  document.getElementById('cloud-logout').onclick=()=>{document.getElementById('logout-overlay').hidden=false;};
  document.getElementById('logout-cancel').onclick=()=>{document.getElementById('logout-overlay').hidden=true;};
- document.getElementById('logout-confirm').onclick=async()=>{
-  document.getElementById('logout-overlay').hidden=true;document.getElementById('logout-wait-overlay').hidden=false;
-  try{document.activeElement?.blur();if(cloudPending.size)await cloudFlush();await cloudChain;if(cloudPending.size||cloudTimer)throw new Error('ยังมีข้อมูลรอบันทึก');await window.remittancePresenceStop?.();await window.remittanceOnlineStop?.();await fbAuth.signOut();location.reload();}
-  catch(err){document.getElementById('logout-wait-overlay').hidden=true;cloudStatus('⚠ ออกจากระบบไม่สำเร็จ: '+err.message);alert('ออกจากระบบไม่สำเร็จ กรุณาตรวจสอบการบันทึกข้อมูล');}
- };
+ document.getElementById('logout-confirm').onclick=()=>performLogout(false);
+ document.getElementById('idle-retry').onclick=()=>performLogout(true);
+
  if(!cloudClient){document.body.classList.remove('auth-checking');document.body.classList.add('auth-login');cloudAuthStatus('โหลด Firebase SDK ไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ต');return}
  try{cloudInitialBackup=window.cloudLocalBackup()}catch(err){console.warn('Local backup not available:',err);cloudInitialBackup=null}
  const showRefreshConfirmation=()=>new Promise(resolve=>{
@@ -1434,7 +1474,7 @@ for(const tr of cells){tr.querySelector('.qr-output').textContent='';tr.querySel
 transferData.rows.forEach((r,i)=>{if(i>0&&r.date&&cells[i])cells[i].classList.add('new-date-group')});
 for(const g of calcTransferGroups()){const tr=cells[g.indices[g.indices.length-1]];if(tr){tr.querySelector('.qr-output').textContent=money(g.na);tr.querySelector('.note-output').textContent=thaiDate(g.date)}}
 }
-function renderTransfers(){const body=$('transfer-rows');body.innerHTML='';for(const r of transferData.rows){const tr=document.createElement('tr');tr.dataset.id=r.id;tr.innerHTML=`<td><div class="thai-date-control"><input class="field thai-date-display" type="text" readonly tabindex="-1" aria-label="วันที่แบบไทย" value="${thaiDate(r.date)}"><span class="calendar-wrap" title="เลือกวันที่"><span aria-hidden="true">▦</span><input class="date-picker-native" data-field="date" aria-label="เลือกวันเดือนปี" type="date" value="${safe(r.date)}" ${lock()?'disabled':''}></span></div></td><td><input class="field money" data-field="na" aria-label="จำนวน N/A" inputmode="decimal" value="${String(r.na??'').trim()?money(num(r.na)):''}" ${lock()?'disabled':''}></td><td><input class="field money" data-field="transfer" aria-label="จำนวนเงินโอน" inputmode="decimal" value="${String(r.transfer??'').trim()?money(num(r.transfer)):''}" ${lock()?'disabled':''}></td><td><span class="qr-output"></span></td><td><span class="note-output"></span></td><td class="remove"><div class="transfer-row-actions"><button type="button" class="insert-transfer" title="แทรกแถวด้านล่าง" aria-label="แทรกแถวด้านล่าง" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button type="button" class="delete" title="ลบรายการนี้" aria-label="ลบรายการนี้" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 4h4M7 7l1 13h8l1-13M10 11v6M14 11v6"/></svg></button></div></td>`;body.append(tr)}$('add-transfer').disabled=lock();recalcTransfers();queueMicrotask(()=>window.remittancePresencePaint?.())}
+function renderTransfers(){const body=$('transfer-rows');body.innerHTML='';for(const r of transferData.rows){const tr=document.createElement('tr');tr.dataset.id=r.id;tr.innerHTML=`<td><div class="thai-date-control"><input class="field thai-date-display" type="text" readonly tabindex="-1" aria-label="วันที่แบบไทย" value="${thaiDate(r.date)}"><span class="calendar-wrap" title="เลือกวันที่"><span aria-hidden="true">▦</span><input class="date-picker-native" data-field="date" aria-label="เลือกวันเดือนปี" type="date" value="${safe(r.date)}" ${lock()?'disabled':''}></span></div></td><td><input class="field" data-field="receipt" aria-label="ใบเสร็จเล่มที่/เลขที่" type="text" value="${safe(r.receipt)}" ${lock()?'disabled':''}></td><td><input class="field money" data-field="na" aria-label="จำนวน N/A" inputmode="decimal" value="${String(r.na??'').trim()?money(num(r.na)):''}" ${lock()?'disabled':''}></td><td><input class="field money" data-field="transfer" aria-label="จำนวนเงินโอน" inputmode="decimal" value="${String(r.transfer??'').trim()?money(num(r.transfer)):''}" ${lock()?'disabled':''}></td><td><span class="qr-output"></span></td><td><span class="note-output"></span></td><td class="remove"><div class="transfer-row-actions"><button type="button" class="insert-transfer" title="แทรกแถวด้านล่าง" aria-label="แทรกแถวด้านล่าง" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button type="button" class="delete" title="ลบรายการนี้" aria-label="ลบรายการนี้" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 4h4M7 7l1 13h8l1-13M10 11v6M14 11v6"/></svg></button></div></td>`;body.append(tr)}$('add-transfer').disabled=lock();recalcTransfers();queueMicrotask(()=>window.remittancePresencePaint?.())}
 $('transfer-rows').addEventListener('input',e=>{const el=e.target;if(lock()||!el.matches('input'))return;const r=transferData.rows.find(v=>v.id===el.closest('tr').dataset.id);if(!r)return;const k=el.dataset.field;let v=el.value;if(k==='date')return; /* วันที่จัดการใน change */if(k==='na'||k==='transfer'){v=v.replace(/[^\d.,]/g,'').replace(/,/g,'');el.value=v}if(!r.date&&!r.entryDay&&['receipt','na','transfer'].includes(k)&&String(v).trim())r.entryDay=selected;if(k==='receipt'&&findDuplicate(v,r.id)){el.classList.add('invalid');$('duplicate-notice').textContent='⚠ เลขที่ใบเสร็จนี้มีอยู่แล้วในวันนี้ กรุณาตรวจสอบก่อนบันทึก';return}el.classList.remove('invalid');$('duplicate-notice').textContent='';r[k]=v;recalcTransfers();saveTransfer()});
 $('transfer-rows').addEventListener('change',e=>{if(!e.target.matches('input[data-field="date"]')||lock())return;const el=e.target,r=transferData.rows.find(v=>v.id===el.closest('tr').dataset.id);if(r){r.date=el.value;el.closest('td').querySelector('.thai-date-display').value=thaiDate(el.value);recalcTransfers();saveTransfer()}});
 $('transfer-rows').addEventListener('focusout',e=>{const el=e.target;if(el.matches('input[data-field="receipt"]')&&el.classList.contains('invalid')){const r=transferData.rows.find(v=>v.id===el.closest('tr').dataset.id);el.value=r?.receipt||'';el.classList.remove('invalid')}if(el.matches('input.money')&&el.value.trim())el.value=money(num(el.value))});
