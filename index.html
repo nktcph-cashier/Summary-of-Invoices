@@ -654,11 +654,59 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
  <div class="auth-wait-message">กำลังตรวจสอบการเข้าสู่ระบบ…</div>
 </div>
 <div class="cloud-login">
-<div class="login-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h10l3 3v15H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v4h4M8 12h8M8 16h8"/></svg></div>
-<h2>เข้าสู่ระบบ</h2>
-<details id="cloud-setup" hidden><summary>Firebase</summary></details>
-<form id="login-form" class="login-fields"><label for="login-user">ชื่อผู้ใช้</label><input id="login-user" name="username" autocomplete="username" required maxlength="7" autocapitalize="characters" spellcheck="false"><label for="login-password">รหัสผ่าน</label><input id="login-password" name="password" type="password" autocomplete="current-password" required><button type="submit" id="cloud-login" class="btn primary">เข้าสู่ระบบ</button></form>
-<p id="cloud-auth-status" role="status" aria-live="polite"></p>
+  <div class="login-shell">
+    <section class="login-showcase" aria-hidden="true">
+      <div class="login-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h10l3 3v15H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v4h4M8 12h8M8 16h5"/></svg></div>
+      <div class="login-badge">Smart cashier workspace</div>
+      <h1 class="login-brand">NKTCPH-CASHIER</h1>
+      <p class="login-copy">ระบบใบสรุปการนำส่งเงินสำหรับผู้ใช้งานที่ได้รับอนุญาต เชื่อมต่อข้อมูลกลางและแสดงสถานะออนไลน์แบบเรียลไทม์</p>
+      <div class="login-illustration">
+        <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ภาพประกอบระบบแคชเชียร์">
+          <defs>
+            <linearGradient id="lgA" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8ea1da"/>
+              <stop offset="1" stop-color="#6a7fb9"/>
+            </linearGradient>
+            <linearGradient id="lgB" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f8fbff"/>
+              <stop offset="1" stop-color="#eef3ff"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="260" cy="312" rx="178" ry="28" fill="#dbe4fb"/>
+          <rect x="88" y="62" width="194" height="212" rx="24" fill="url(#lgA)"/>
+          <rect x="106" y="84" width="158" height="168" rx="18" fill="#ffffff" opacity="0.96"/>
+          <rect x="124" y="112" width="122" height="16" rx="8" fill="#dbe3fb"/>
+          <rect x="124" y="142" width="95" height="13" rx="6.5" fill="#ebeffa"/>
+          <rect x="124" y="166" width="86" height="13" rx="6.5" fill="#ebeffa"/>
+          <rect x="124" y="200" width="52" height="34" rx="10" fill="#edf2ff"/>
+          <rect x="185" y="200" width="61" height="34" rx="10" fill="#edf2ff"/>
+          <circle cx="155" cy="217" r="11" fill="#7d93cf"/>
+          <path d="M147 217h16M155 209v16" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <path d="M199 220l9 9 20-23" fill="none" stroke="#79ba89" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="290" y="95" width="142" height="170" rx="24" fill="#fff"/>
+          <rect x="308" y="117" width="106" height="54" rx="16" fill="#eef3ff"/>
+          <path d="M320 144h33M320 156h48" stroke="#7f90c6" stroke-width="7" stroke-linecap="round"/>
+          <rect x="308" y="186" width="106" height="18" rx="9" fill="#edf2ff"/>
+          <rect x="308" y="214" width="78" height="18" rx="9" fill="#edf2ff"/>
+          <rect x="351" y="242" width="92" height="62" rx="22" fill="#6f85c1"/>
+          <rect x="365" y="257" width="64" height="10" rx="5" fill="#dce5ff"/>
+          <rect x="365" y="274" width="46" height="10" rx="5" fill="#c8d5fb"/>
+          <circle cx="469" cy="118" r="26" fill="#fff"/>
+          <circle cx="469" cy="118" r="19" fill="#7ebf90"/>
+          <path d="M460 118l6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="102" cy="286" r="22" fill="#8fc3a1"/>
+          <text x="95" y="293" fill="#fff" font-size="24" font-family="Arial, sans-serif">฿</text>
+        </svg>
+      </div>
+    </section>
+    <section class="login-form-panel">
+      <h2>เข้าสู่ระบบ</h2>
+      <p class="login-subtitle">กรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าสู่ระบบ</p>
+      <details id="cloud-setup" hidden><summary>Firebase</summary></details>
+      <form id="login-form" class="login-fields"><label for="login-user">ชื่อผู้ใช้</label><input id="login-user" name="username" autocomplete="username" required maxlength="7" autocapitalize="characters" spellcheck="false"><label for="login-password">รหัสผ่าน</label><input id="login-password" name="password" type="password" autocomplete="current-password" required><button type="submit" id="cloud-login" class="btn primary">เข้าสู่ระบบ</button></form>
+      <p id="cloud-auth-status" role="status" aria-live="polite"></p>
+    </section>
+  </div>
 </div></div>
 <div class="cloud-toolbar"><span id="cloud-status">ยังไม่เชื่อมฐานข้อมูล</span><button class="btn" id="cloud-import" type="button" hidden>นำเข้าข้อมูลเดิมจากเครื่องนี้</button><button class="btn" id="cloud-refresh" type="button" hidden>โหลดข้อมูลใหม่</button></div>
 <main class="wrap">
@@ -714,25 +762,44 @@ body.cloud-ready .cloud-auth{display:none!important}.cloud-toolbar{display:flex;
   min-height:100vh;
 }
 .cloud-login{
-  width:min(440px,100%);padding:38px 35px 34px;gap:0;
-  background:#fff;border:1px solid rgba(255,255,255,.5);
-  border-radius:24px;box-shadow:0 24px 70px rgba(66,76,118,.15);
-  color:#2c3550;position:relative;
+  width:min(920px,100%);
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.65);
+  border-radius:28px;
+  box-shadow:0 24px 70px rgba(66,76,118,.15);
+  color:#2c3550;
+  position:relative;
+  overflow:hidden;
+  backdrop-filter:blur(5px);
+  padding:0;
 }
-.cloud-login .login-mark{
-  width:58px;height:58px;border-radius:18px;margin:0 auto 23px;
-  display:grid;place-items:center;color:#fff;
-  background:linear-gradient(135deg,#7c8fca,#677bb5);
-  box-shadow:0 9px 20px rgba(96,117,181,.20);
-}
+.cloud-login p{margin:0;line-height:1.6}
+.cloud-login #cloud-setup[hidden]{display:none!important}
+.cloud-toolbar #cloud-import,.cloud-toolbar #cloud-refresh{display:none!important}
+.cloud-login small{color:#627d8c}
+.cloud-login #cloud-auth-status:empty{display:none}
+.cloud-login #cloud-auth-status{color:#b1474e;overflow-wrap:anywhere;min-height:22px;font-size:13px}
+body:not(.cloud-ready) main.wrap,body:not(.cloud-ready) .cloud-toolbar{display:none!important}
+body.cloud-ready .cloud-auth{display:none!important}.cloud-toolbar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:10px;background:#e9f4ef;border-bottom:1px solid #b9d8c9;font-size:13px}.cloud-toolbar #cloud-status{font-weight:700}
+.cloud-login .login-shell{display:grid;grid-template-columns:minmax(300px,1.07fr) minmax(300px,.93fr);align-items:stretch}
+.cloud-login .login-showcase{padding:42px 40px 38px;position:relative;background:linear-gradient(180deg,rgba(244,247,255,.92),rgba(237,243,255,.78))}
+.cloud-login .login-showcase::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 16% 16%,rgba(145,166,228,.22),transparent 27%),radial-gradient(circle at 86% 18%,rgba(135,192,161,.16),transparent 22%),linear-gradient(180deg,transparent,rgba(255,255,255,.32));pointer-events:none}
+.cloud-login .login-form-panel{padding:44px 40px 40px;display:flex;flex-direction:column;justify-content:center;background:rgba(255,255,255,.84)}
+.cloud-login .login-mark{width:58px;height:58px;border-radius:18px;margin:0 0 18px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#7c8fca,#677bb5);box-shadow:0 9px 20px rgba(96,117,181,.20);position:relative;z-index:1}
 .cloud-login .login-mark svg{width:28px;height:28px}
-.cloud-login h2{font-size:clamp(23px,4.7vw,29px);letter-spacing:-.035em;line-height:1.35;margin:0 0 29px;font-weight:800;color:#303a5b;text-align:center;text-wrap:balance}
+.cloud-login .login-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#ffffffc9;border:1px solid #d7e1ff;color:#5d719f;font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;position:relative;z-index:1}
+.cloud-login .login-brand{margin:16px 0 10px;font-size:clamp(28px,4.3vw,40px);line-height:1.06;font-weight:900;letter-spacing:-.045em;color:#2f3a5b;position:relative;z-index:1}
+.cloud-login .login-copy{max-width:42ch;font-size:15px;color:#5d6985;position:relative;z-index:1}
+.cloud-login .login-illustration{margin-top:28px;position:relative;z-index:1}
+.cloud-login .login-illustration svg{display:block;width:100%;height:auto;max-width:420px}
+.cloud-login h2{font-size:clamp(24px,3vw,30px);letter-spacing:-.035em;line-height:1.25;margin:0 0 8px;font-weight:800;color:#303a5b;text-wrap:balance}
+.cloud-login .login-subtitle{margin:0 0 24px;font-size:14px;color:#68748f}
 .cloud-login .login-fields{display:flex;flex-direction:column;gap:9px}
 .cloud-login .login-fields label{font-size:13px;font-weight:750;letter-spacing:.005em;color:#56617c}
-.cloud-login .login-fields input{height:48px;padding:12px 14px;border:1px solid #d8deee;border-radius:12px;background:#fafbff;color:#303a5b;font-size:16px;transition:border-color .18s,box-shadow .18s,background .18s;margin:0 0 11px}
+.cloud-login .login-fields input{height:50px;padding:12px 14px;border:1px solid #d8deee;border-radius:14px;background:#fafbff;color:#303a5b;font-size:16px;transition:border-color .18s,box-shadow .18s,background .18s;margin:0 0 11px}
 .cloud-login .login-fields input:hover{border-color:#a5b2d5}
 .cloud-login .login-fields input:focus{outline:none;border-color:#798bc2;background:#fff;box-shadow:0 0 0 4px rgba(105,124,186,.14)}
-.cloud-login #cloud-login{height:49px;margin-top:9px;width:100%;border:none;border-radius:12px;color:#fff!important;background:linear-gradient(110deg,#778bc4,#6579af)!important;box-shadow:0 7px 18px rgba(93,113,172,.23);font-size:16px;font-weight:800;transition:filter .18s,transform .18s}
+.cloud-login #cloud-login{height:50px;margin-top:10px;width:100%;border:none;border-radius:14px;color:#fff!important;background:linear-gradient(110deg,#778bc4,#6579af)!important;box-shadow:0 7px 18px rgba(93,113,172,.23);font-size:16px;font-weight:800;transition:filter .18s,transform .18s}
 .cloud-login #cloud-login:hover:not(:disabled){filter:brightness(1.07);transform:translateY(-1px)}
 .cloud-login #cloud-login:focus-visible{outline:3px solid #b6c2ef;outline-offset:3px}
 .cloud-login #cloud-auth-status{margin-top:12px!important;font-size:13px;text-align:center;color:#b43c4c;min-height:0}
@@ -741,8 +808,25 @@ body.cloud-ready .cloud-auth{display:none!important}.cloud-toolbar{display:flex;
 .cloud-login #cloud-setup:not([hidden]) summary{font-size:13px}
 .cloud-login #cloud-setup:not([hidden]) input{height:43px;font-size:14px;background:white}
 .cloud-login #cloud-setup:not([hidden]) small{font-size:11px}
-@media(max-width:480px){.cloud-auth{padding:17px}.cloud-login{padding:34px 22px 29px;border-radius:20px}.cloud-login h2{margin-bottom:26px}}
-
+@media(max-width:760px){
+  .cloud-auth{padding:18px}
+  .cloud-login{width:min(540px,100%)}
+  .cloud-login .login-shell{grid-template-columns:1fr}
+  .cloud-login .login-showcase{padding:30px 26px 10px}
+  .cloud-login .login-form-panel{padding:22px 26px 30px}
+  .cloud-login .login-brand{font-size:clamp(27px,8vw,34px)}
+  .cloud-login .login-copy{max-width:none}
+  .cloud-login .login-illustration{margin-top:22px}
+  .cloud-login .login-illustration svg{max-width:340px}
+}
+@media(max-width:480px){
+  .cloud-auth{padding:16px}
+  .cloud-login{border-radius:22px}
+  .cloud-login .login-showcase{padding:26px 20px 8px}
+  .cloud-login .login-form-panel{padding:20px 20px 26px}
+  .cloud-login .login-mark{width:52px;height:52px;border-radius:16px}
+  .cloud-login .login-fields input,.cloud-login #cloud-login{height:48px}
+}
 @media print{.cloud-auth,.cloud-toolbar{display:none!important}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
@@ -2102,4 +2186,14 @@ window.addEventListener('beforeprint',preparePrint);
 <style id="restore-online-panel">
 @media screen and (min-width:1200px){main.wrap{grid-template-columns:280px minmax(0,1fr) 200px}main.wrap > .workspace > #online-users{grid-column:3;grid-row:2/4;position:sticky;top:18px;align-self:start}}
 @media screen and (min-width:921px) and (max-width:1199px){main.wrap > .workspace > #online-users{grid-column:2;grid-row:4;justify-self:end}}
-</style></body></html>
+</style><style id="login-form-alignment">
+.cloud-login .login-shell {width:100%;min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+.cloud-login .login-form-panel {min-width:0;align-items:center;padding-inline:clamp(20px,4vw,40px);}
+.cloud-login .login-form-panel > * {width:100%;max-width:340px;min-width:0;margin-inline:auto;box-sizing:border-box;}
+.cloud-login .login-form-panel h2,.cloud-login .login-subtitle {text-align:center;}
+.cloud-login #login-form {width:100%;max-width:340px;align-items:stretch;}
+.cloud-login #login-form input,.cloud-login #cloud-login {display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;margin-inline:0;}
+.cloud-login #login-form label {text-align:left;width:100%;}
+@media(max-width:760px){.cloud-login .login-shell{grid-template-columns:minmax(0,1fr);}}
+</style>
+</body></html>
