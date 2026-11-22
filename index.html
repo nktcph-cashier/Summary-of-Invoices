@@ -963,10 +963,13 @@ async function cloudFetchDay(day){return decodeDay((await dayRef(day).get()).val
 const cloudParts=r=>({main_data:r?.main_data??null,transfer_data:r?.transfer_data??null});
 async function cloudCAS(day,old,patch){
  if(!cloudReady||!cloudUser)throw new Error('กรุณาเข้าสู่ระบบ');
+ await singleCheck();
  const ref=dayRef(day);
  // Prime local cache so the initial null transaction state cannot be mistaken for an absent record.
  await ref.get();
+ await singleCheck();
  const result=await ref.transaction(current=>{
+  if(singleRevoked)return;
   if(!cloudMerge.same(cloudParts(decodeDay(current)),cloudParts(old)) || (!!current!==!!old))return;
   const next={...(current||{}),day,user_id:current?.user_id||cloudUser.id};
   if(Object.hasOwn(patch,'main_data'))next.main_json=JSON.stringify(patch.main_data);
@@ -1153,7 +1156,7 @@ async function performLogout(automatic){
  else document.getElementById('logout-wait-overlay').hidden=false;
  try{
   document.activeElement?.blur();if(cloudPending.size)await cloudFlush();await cloudChain;if(cloudPending.size||cloudTimer)throw new Error('ยังมีข้อมูลรอบันทึก');
-  document.body.classList.remove('cloud-ready');await window.remittancePresenceStop?.();await window.remittanceOnlineStop?.();await fbAuth.signOut();
+  document.body.classList.remove('cloud-ready');await window.remittancePresenceStop?.();await window.remittanceOnlineStop?.();await singleRelease();await fbAuth.signOut();
   try{sessionStorage.removeItem(idleKey)}catch(e){}location.reload();
  }catch(err){
   logoutRunning=false;document.getElementById('logout-wait-overlay').hidden=true;cloudStatus('⚠ ออกจากระบบไม่สำเร็จ: '+err.message);
@@ -1162,13 +1165,41 @@ async function performLogout(automatic){
  }
 }
 
+// Single active browser session per account (cooperative client enforcement).
+const singleKey='nktcph.active.session.v1';
+let singleRef=null,singleToken=null,singleHandler=null,singleRevoked=false;
+async function singleKick(){
+ if(singleRevoked)return;singleRevoked=true;cloudReady=false;idleUid=null;clearTimeout(cloudTimer);cloudTimer=null;
+ if(singleRef&&singleHandler)singleRef.off('value',singleHandler);
+ clearInterval(cloudLiveTimer);cloudLiveChannel?.close();
+ document.body.classList.remove('cloud-ready','auth-checking');document.body.classList.add('auth-login');
+ document.getElementById('idle-warning').hidden=true;
+ // Keep any pending edits in a downloadable local recovery file, never flush from the revoked session.
+ if(cloudPending.size){const a=document.createElement('a');a.textContent='ดาวน์โหลดข้อมูลที่ยังไม่บันทึก';a.className='btn';a.href=URL.createObjectURL(new Blob([JSON.stringify([...cloudPending],null,2)],{type:'application/json'}));a.download='pending-recovery.json';document.getElementById('cloud-auth-status').after(a);}
+ cloudPending.clear();
+ await Promise.allSettled([window.remittancePresenceStop?.(),window.remittanceOnlineStop?.()]);
+ await fbAuth.signOut().catch(()=>{});cloudUser=null;
+ try{sessionStorage.removeItem(singleKey);sessionStorage.removeItem(idleKey)}catch(e){}
+ cloudAuthStatus('บัญชีนี้เข้าสู่ระบบจากอุปกรณ์อื่นแล้ว กรุณาเข้าสู่ระบบใหม่');
+}
+async function singleStart(claim){
+ singleRevoked=false;singleRef=fbDb.ref('active_sessions/'+cloudUser.id);
+ if(claim){singleToken=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;await singleRef.set(singleToken);sessionStorage.setItem(singleKey,singleToken);}
+ else{singleToken=sessionStorage.getItem(singleKey);if(!singleToken|| (await singleRef.get()).val()!==singleToken){await fbAuth.signOut();throw new Error('กรุณาเข้าสู่ระบบใหม่');}}
+ singleHandler=snap=>{if(snap.val()!==singleToken)void singleKick()};singleRef.on('value',singleHandler,()=>void singleKick());
+}
+async function singleCheck(){if(singleRevoked||!singleRef||!singleToken)throw new Error('Session หมดอายุ');if((await singleRef.get()).val()!==singleToken){void singleKick();throw new Error('บัญชีถูกเปิดจากอุปกรณ์อื่น');}}
+async function singleRelease(){if(!singleRef||!singleToken)return;if(singleHandler)singleRef.off('value',singleHandler);await singleRef.transaction(v=>v===singleToken?null:undefined);sessionStorage.removeItem(singleKey);}
+
 // Firebase password authentication with internal username aliases.
-async function cloudStart(){
+async function cloudStart(claim=false){
  cloudUser=(await cloudClient.auth.getUser()).data.user;
  if(!cloudUser)return;
  if(!(await fbDb.ref("allowed_users/"+cloudUser.id).get()).val()){await fbAuth.signOut();cloudUser=null;throw new Error("บัญชีนี้ยังไม่ได้รับอนุญาต");}
+ await singleStart(claim);
  if(cloudPending.size&&cloudPendingOwner!==cloudUser.id)throw new Error('มีข้อมูลรอบันทึกจาก UID เดิม');
  if(!await cloudLoad())throw new Error('ยังโหลดข้อมูลกลางไม่สำเร็จ');
+ await singleCheck();
  document.body.classList.remove('auth-login');
  document.body.classList.add('cloud-ready');
  cloudStartLive();
@@ -1183,7 +1214,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
   e.preventDefault();const name=document.getElementById('login-user').value.trim().toUpperCase(),pw=document.getElementById('login-password');
   if(!LOGIN_NAMES.includes(name)){cloudAuthStatus('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');return}
   loginButton.disabled=true;cloudAuthStatus('');
-  try{await fbAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);await fbAuth.signInWithEmailAndPassword(name.toLowerCase()+'@'+LOGIN_DOMAIN,pw.value);pw.value='';try{sessionStorage.removeItem(idleKey)}catch(e){}await cloudStart();}
+  try{await fbAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);await fbAuth.signInWithEmailAndPassword(name.toLowerCase()+'@'+LOGIN_DOMAIN,pw.value);pw.value='';try{sessionStorage.removeItem(idleKey)}catch(e){}if(singleRevoked){cloudUser=(await cloudClient.auth.getUser()).data.user;await singleStart(true);location.reload();return;}await cloudStart(true);}
   catch(err){console.error('Login failed',err.code||err.message);if(!cloudReady&&fbAuth.currentUser)await fbAuth.signOut().catch(()=>{});cloudUser=null;cloudAuthStatus(err.code?.startsWith('auth/')&&err.code!=='auth/network-request-failed'?'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบชื่อผู้ใช้ รหัสผ่าน และการตั้งค่าบัญชี':'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อและสิทธิ์ Firebase');}
   finally{loginButton.disabled=false;}
  });
