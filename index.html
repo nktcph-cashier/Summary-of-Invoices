@@ -640,6 +640,12 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
 }
 </style>
 <style>body:not(.cloud-ready) #print-document{display:none!important}</style>
+<style>.transfer-table col.datecol{width:23%}.transfer-table col.valuecol{width:15%}.transfer-table col.qrcol{width:17%}.transfer-table col.notecol{width:23%}.transfer-table col.managecol{width:7%}</style>
+<style id="transfer-font-consistency">
+.transfer-table tbody .thai-date-display,
+.transfer-table tbody .note-output { font-family: inherit !important; font-size: 15px !important; font-weight: 400 !important; }
+@media print { .transfer-table tbody .thai-date-display, .transfer-table tbody .note-output { font-size: 11pt !important; } }
+</style>
 </head>
 <body class="auth-checking">
 <div id="cloud-auth" class="cloud-auth">
@@ -651,7 +657,7 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
 <div class="login-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h10l3 3v15H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v4h4M8 12h8M8 16h8"/></svg></div>
 <h2>เข้าสู่ระบบ</h2>
 <details id="cloud-setup" hidden><summary>Firebase</summary></details>
-<form id="login-form" class="login-fields"><label for="login-user">ชื่อผู้ใช้</label><input id="login-user" name="username" autocomplete="username" placeholder="USER001" required maxlength="7" autocapitalize="characters" spellcheck="false"><label for="login-password">รหัสผ่าน</label><input id="login-password" name="password" type="password" autocomplete="current-password" required><button type="submit" id="cloud-login" class="btn primary">เข้าสู่ระบบ</button></form>
+<form id="login-form" class="login-fields"><label for="login-user">ชื่อผู้ใช้</label><input id="login-user" name="username" autocomplete="username" required maxlength="7" autocapitalize="characters" spellcheck="false"><label for="login-password">รหัสผ่าน</label><input id="login-password" name="password" type="password" autocomplete="current-password" required><button type="submit" id="cloud-login" class="btn primary">เข้าสู่ระบบ</button></form>
 <p id="cloud-auth-status" role="status" aria-live="polite"></p>
 </div></div>
 <div class="cloud-toolbar"><span id="cloud-status">ยังไม่เชื่อมฐานข้อมูล</span><button class="btn" id="cloud-import" type="button" hidden>นำเข้าข้อมูลเดิมจากเครื่องนี้</button><button class="btn" id="cloud-refresh" type="button" hidden>โหลดข้อมูลใหม่</button></div>
@@ -665,14 +671,14 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
 <div class="table-scroll"><table aria-label="ใบสรุปการนำส่งเงิน"><colgroup><col class="book"><col class="receipt"><col class="description"><col class="amount"><col class="amount"><col class="manage"></colgroup><thead><tr><th rowspan="2">เล่มที่</th><th rowspan="2">เลขที่<br>ใบเสร็จรับเงิน</th><th rowspan="2">รายการ</th><th colspan="2">จำนวนเงิน</th><th rowspan="2">จัดการ</th></tr><tr><th>เงินสด</th><th>นำฝาก/โอน</th></tr></thead><tbody id="rows"></tbody><tbody><tr class="action-row"><td colspan="6"><button class="add" id="add">＋ เพิ่มรายการตารางบน</button></td></tr></tbody><tfoot><tr class="linked-row"><td></td><td></td><td>เงินโอน/บัตรเครดิต</td><td class="money-out">–</td><td class="money-out" id="linked-transfer">0.00</td><td></td></tr><tr class="linked-row"><td></td><td></td><td>นำฝากธนาคาร</td><td class="money-out">–</td><td class="money-out" id="linked-bank">0.00</td><td></td></tr><tr class="total-row"><td colspan="3" style="text-align:center">รวมรายรับประจำวัน</td><td class="money-out" id="total-cash">0.00</td><td class="money-out" id="total-transfer">0.00</td><td></td></tr></tfoot></table></div></section>
 <section class="panel transfer-panel"><div class="panel-head"><div><h2>รายละเอียดเงินโอน</h2><p class="hint" id="transfer-month-title" hidden></p><p class="transfer-date-help">เลือกวันที่ย้อนหลังในแต่ละแถวได้ • วันที่ในตารางนี้เป็นวันที่รายการ ไม่เปลี่ยนวันที่บันทึกด้านซ้าย • รวม QR แยกตามกลุ่มวันที่</p></div><span class="saved" id="transfer-saved">บันทึกอัตโนมัติ</span></div>
 
-<div class="table-scroll"><table class="transfer-table" aria-label="รายละเอียดเงินโอน"><colgroup><col class="datecol"><col class="receiptcol"><col class="valuecol"><col class="valuecol"><col class="qrcol"><col class="notecol"><col class="managecol"></colgroup><thead><tr><th>วัน-เดือน-ปี</th><th>ใบเสร็จเล่มที่/เลขที่</th><th>N/A</th><th>โอน</th><th>รวม QR (QR CODE)</th><th>หมายเหตุ</th><th>จัดการ</th></tr></thead><tbody id="transfer-rows"></tbody><tbody><tr class="action-row"><td colspan="7"><button class="add" id="add-transfer">＋ เพิ่มรายการเงินโอน</button></td></tr></tbody><tfoot>
-<tr><td><strong>รวมเงิน N/A</strong></td><td></td><td class="money-out" id="sum-na">0.00</td><td class="money-out">–</td><td class="money-out" id="sum-qr">0.00</td><td colspan="2"></td></tr>
-<tr class="transfer-total-row"><td><strong>รวมเงินโอน</strong></td><td></td><td class="money-out" id="sum-transfers">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
-<tr class="bank-row"><td colspan="2"><strong>คงเหลือนำฝากธนาคาร</strong></td><td class="bank-num" id="bank-net">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
-<tr class="sender-row"><td colspan="7"><div class="sender-picker-wrap"><label for="sender-name">ผู้นำส่งเงิน</label><select class="sender-picker" id="sender-name" aria-label="เลือกผู้นำส่งเงิน"><option value="">— เลือกชื่อผู้นำส่งเงิน —</option><option value="นายณรงค์ศักดิ์  เชื้อบุญมี">นายณรงค์ศักดิ์  เชื้อบุญมี</option><option value="นางสาวณัฐนันท์  นวลจันทร์เพ็ญ">นางสาวณัฐนันท์  นวลจันทร์เพ็ญ</option><option value="นางสาวเกวลิน  ยวนแห่ว">นางสาวเกวลิน  ยวนแห่ว</option></select></div></td></tr>
+<div class="table-scroll"><table class="transfer-table" aria-label="รายละเอียดเงินโอน"><colgroup><col class="datecol"><col class="valuecol"><col class="valuecol"><col class="qrcol"><col class="notecol"><col class="managecol"></colgroup><thead><tr><th>วัน-เดือน-ปี</th><th>N/A</th><th>โอน</th><th>รวม QR (QR CODE)</th><th>หมายเหตุ</th><th>จัดการ</th></tr></thead><tbody id="transfer-rows"></tbody><tbody><tr class="action-row"><td colspan="6"><button class="add" id="add-transfer">＋ เพิ่มรายการเงินโอน</button></td></tr></tbody><tfoot>
+<tr><td><strong>รวมเงิน N/A</strong></td><td class="money-out" id="sum-na">0.00</td><td class="money-out">–</td><td class="money-out" id="sum-qr">0.00</td><td colspan="2"></td></tr>
+<tr class="transfer-total-row"><td><strong>รวมเงินโอน</strong></td><td class="money-out" id="sum-transfers">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
+<tr class="bank-row"><td><strong>คงเหลือนำฝากธนาคาร</strong></td><td class="bank-num" id="bank-net">0.00</td><td class="bold-baht">บาท</td><td colspan="3"></td></tr>
+<tr class="sender-row"><td colspan="6"><div class="sender-picker-wrap"><label for="sender-name">ผู้นำส่งเงิน</label><select class="sender-picker" id="sender-name" aria-label="เลือกผู้นำส่งเงิน"><option value="">— เลือกชื่อผู้นำส่งเงิน —</option><option value="นายณรงค์ศักดิ์  เชื้อบุญมี">นายณรงค์ศักดิ์  เชื้อบุญมี</option><option value="นางสาวณัฐนันท์  นวลจันทร์เพ็ญ">นางสาวณัฐนันท์  นวลจันทร์เพ็ญ</option><option value="นางสาวเกวลิน  ยวนแห่ว">นางสาวเกวลิน  ยวนแห่ว</option></select></div></td></tr>
 </tfoot></table></div><div class="transfer-notice" id="duplicate-notice" role="alert" aria-live="polite"></div></section>
 <div class="below">● ทุกบัญชีที่ได้รับอนุญาตใช้ฐานข้อมูลกลางเดียวกัน • บันทึกแล้วเครื่องอื่นจะเห็นโดยอัตโนมัติ • หากแก้ตารางเดียวกันพร้อมกัน ข้อมูลที่บันทึกทีหลังอาจทับการแก้ไขก่อนหน้า • วัน/เวลาที่ล็อกยังต้องปลดล็อกก่อนแก้ไข</div>
-</div><aside class="sidebar"><div class="sidebar-head"><div class="eyebrow period-heading"><span>เลือกช่วงเวลา</span><span class="connection-inline" role="status" aria-live="polite"><span id="connection-state" data-state="waiting">กำลังเชื่อมต่อ…</span><span class="connection-separator" aria-hidden="true">·</span><span id="online-inline">ออนไลน์ —</span></span></div><h2>เลือกเดือนและวันที่</h2><label for="year">ปี พ.ศ.</label><div class="year-controls"><button id="prev-year">‹</button><input id="year" type="number" min="2400" max="2900"><button id="next-year">›</button></div></div><nav class="month-list" id="months"></nav><p class="holiday-caveat" id="holiday-caveat" style="padding:0 15px 10px;margin:0;font-size:11px;color:#5b6772;line-height:1.6">ชมพู = เสาร์–อาทิตย์ • แดง = วันหยุดราชการ • ทุกวันบันทึกข้อมูลได้</p><div class="annual-summary"><strong>สรุปยอดทั้งปี</strong><small>เงินสด</small><strong id="annual-cash">0.00</strong><small>นำฝาก/โอน</small><strong id="annual-transfer">0.00</strong><small>รวม</small><strong id="annual-total">0.00</strong><button class="btn" id="export-year">⇩ ส่งออก CSV ทั้งปี</button></div></aside><aside id="online-users" aria-label="สถานะผู้ใช้งาน" hidden><div class="ou-panel"><div class="ou-current"><span id="ou-current-dot" class="ou-dot"></span><div class="ou-detail"><small>ผู้ใช้ปัจจุบัน</small><strong id="ou-name">—</strong><span id="ou-current-state" class="ou-state">รอตรวจสอบ</span></div></div><div class="ou-header"><div class="ou-heading">เจ้าหน้าที่</div><div id="ou-count">—</div></div><div id="ou-list"></div><div id="ou-connection" role="status">กำลังเชื่อมต่อ Realtime…</div></div></aside></div>
+</div><aside class="sidebar"><div class="sidebar-head"><div class="eyebrow period-heading"><span>เลือกช่วงเวลา</span><span class="connection-inline" role="status" aria-live="polite"><span id="connection-state" data-state="waiting">กำลังเชื่อมต่อ…</span><span class="connection-separator" aria-hidden="true">·</span><span id="online-inline">ออนไลน์ —</span></span></div><h2>เลือกเดือนและวันที่</h2><label for="year">ปี พ.ศ.</label><div class="year-controls"><button id="prev-year">‹</button><input id="year" type="number" min="2400" max="2900"><button id="next-year">›</button></div></div><nav class="month-list" id="months"></nav><p class="holiday-caveat" id="holiday-caveat" style="padding:0 15px 10px;margin:0;font-size:11px;color:#5b6772;line-height:1.6">ชมพู = เสาร์–อาทิตย์ • แดง = วันหยุดราชการ • ทุกวันบันทึกข้อมูลได้</p><div class="annual-summary"><strong>สรุปยอดทั้งปี</strong><small>เงินสด</small><strong id="annual-cash">0.00</strong><small>นำฝาก/โอน</small><strong id="annual-transfer">0.00</strong><small>รวม</small><strong id="annual-total">0.00</strong><button class="btn" id="export-year">⇩ ส่งออก CSV ทั้งปี</button></div></aside><aside id="online-users" aria-label="สถานะผู้ใช้งาน" hidden><div class="ou-panel"><div class="ou-current"><span id="ou-current-dot" class="ou-dot"></span><div class="ou-detail"><small>ผู้ใช้ปัจจุบัน</small><strong id="ou-name">—</strong><span id="ou-current-state" class="ou-state">รอตรวจสอบ</span></div></div><div class="ou-header"><div class="ou-heading">ผู้ใช้งานออนไลน์</div><div id="ou-count">—</div></div><div id="ou-list"></div><div id="ou-connection" role="status">กำลังเชื่อมต่อ Realtime…</div></div></aside></div>
 </main><div id="print-document" aria-hidden="true"></div><div class="modal" id="confirm-modal"><div class="dialog"><h3 id="confirm-title"></h3><p id="confirm-text"></p><div class="dialog-actions"><button class="btn" id="cancel-confirm">ยกเลิก</button><button class="btn primary" id="accept-confirm">ยืนยัน</button></div></div></div><div class="logout-overlay" id="refresh-overlay" role="presentation" hidden>
   <div class="logout-dialog" role="alertdialog" aria-modal="true" aria-labelledby="refresh-title">
     <h3 id="refresh-title">ยืนยัน</h3>
@@ -809,6 +815,8 @@ body.cloud-ready .cloud-auth{display:none!important}.cloud-toolbar{display:flex;
 const firebaseConfig={"apiKey":"AIzaSyC6TRRm5nsWTmPtla2lrtJ0gprYtKNBUT8","authDomain":"nktcph-cashier-7a9d6.firebaseapp.com","databaseURL":"https://nktcph-cashier-7a9d6-default-rtdb.asia-southeast1.firebasedatabase.app","projectId":"nktcph-cashier-7a9d6","storageBucket":"nktcph-cashier-7a9d6.firebasestorage.app","messagingSenderId":"692298460691","appId":"1:692298460691:web:8ef95240a1d0654e0699e6","measurementId":"G-2TKX2TTKKJ"};
 const CLOUD_URL=firebaseConfig.databaseURL, CLOUD_PUBLISHABLE_KEY=firebaseConfig.apiKey;
 const LOGIN_NAMES=Array.from({length:6},(_,i)=>'USER00'+(i+1));
+const DISPLAY_NAMES={USER001:'ณรงค์ศักดิ์',USER002:'ณัฐนันท์',USER003:'เกวลิน',USER004:'ตุลยากร',USER005:'USER005',USER006:'USER006'};
+const displayName=name=>DISPLAY_NAMES[name]||name;
 const LOGIN_DOMAIN='login.example.invalid';
 function loginName(u){const email=(u?.email||'').toLowerCase();if(u?.isAnonymous||!email.endsWith('@'+LOGIN_DOMAIN))return null;const name=email.split('@')[0].toUpperCase();return LOGIN_NAMES.includes(name)?name:null;}
 let cloudClient=null, fbDb=null, fbAuth=null;
@@ -1426,7 +1434,7 @@ for(const tr of cells){tr.querySelector('.qr-output').textContent='';tr.querySel
 transferData.rows.forEach((r,i)=>{if(i>0&&r.date&&cells[i])cells[i].classList.add('new-date-group')});
 for(const g of calcTransferGroups()){const tr=cells[g.indices[g.indices.length-1]];if(tr){tr.querySelector('.qr-output').textContent=money(g.na);tr.querySelector('.note-output').textContent=thaiDate(g.date)}}
 }
-function renderTransfers(){const body=$('transfer-rows');body.innerHTML='';for(const r of transferData.rows){const tr=document.createElement('tr');tr.dataset.id=r.id;tr.innerHTML=`<td><div class="thai-date-control"><input class="field thai-date-display" type="text" readonly tabindex="-1" aria-label="วันที่แบบไทย" value="${thaiDate(r.date)}"><span class="calendar-wrap" title="เลือกวันที่"><span aria-hidden="true">▦</span><input class="date-picker-native" data-field="date" aria-label="เลือกวันเดือนปี" type="date" value="${safe(r.date)}" ${lock()?'disabled':''}></span></div></td><td><input class="field" data-field="receipt" placeholder="เล่มที่/เลขที่" aria-label="ใบเสร็จเล่มที่/เลขที่" type="text" value="${safe(r.receipt)}" ${lock()?'disabled':''}></td><td><input class="field money" data-field="na" aria-label="จำนวน N/A" inputmode="decimal" value="${String(r.na??'').trim()?money(num(r.na)):''}" ${lock()?'disabled':''}></td><td><input class="field money" data-field="transfer" aria-label="จำนวนเงินโอน" inputmode="decimal" value="${String(r.transfer??'').trim()?money(num(r.transfer)):''}" ${lock()?'disabled':''}></td><td><span class="qr-output"></span></td><td><span class="note-output"></span></td><td class="remove"><div class="transfer-row-actions"><button type="button" class="insert-transfer" title="แทรกแถวด้านล่าง" aria-label="แทรกแถวด้านล่าง" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button type="button" class="delete" title="ลบรายการนี้" aria-label="ลบรายการนี้" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 4h4M7 7l1 13h8l1-13M10 11v6M14 11v6"/></svg></button></div></td>`;body.append(tr)}$('add-transfer').disabled=lock();recalcTransfers();queueMicrotask(()=>window.remittancePresencePaint?.())}
+function renderTransfers(){const body=$('transfer-rows');body.innerHTML='';for(const r of transferData.rows){const tr=document.createElement('tr');tr.dataset.id=r.id;tr.innerHTML=`<td><div class="thai-date-control"><input class="field thai-date-display" type="text" readonly tabindex="-1" aria-label="วันที่แบบไทย" value="${thaiDate(r.date)}"><span class="calendar-wrap" title="เลือกวันที่"><span aria-hidden="true">▦</span><input class="date-picker-native" data-field="date" aria-label="เลือกวันเดือนปี" type="date" value="${safe(r.date)}" ${lock()?'disabled':''}></span></div></td><td><input class="field money" data-field="na" aria-label="จำนวน N/A" inputmode="decimal" value="${String(r.na??'').trim()?money(num(r.na)):''}" ${lock()?'disabled':''}></td><td><input class="field money" data-field="transfer" aria-label="จำนวนเงินโอน" inputmode="decimal" value="${String(r.transfer??'').trim()?money(num(r.transfer)):''}" ${lock()?'disabled':''}></td><td><span class="qr-output"></span></td><td><span class="note-output"></span></td><td class="remove"><div class="transfer-row-actions"><button type="button" class="insert-transfer" title="แทรกแถวด้านล่าง" aria-label="แทรกแถวด้านล่าง" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button type="button" class="delete" title="ลบรายการนี้" aria-label="ลบรายการนี้" ${lock()?'disabled':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 4h4M7 7l1 13h8l1-13M10 11v6M14 11v6"/></svg></button></div></td>`;body.append(tr)}$('add-transfer').disabled=lock();recalcTransfers();queueMicrotask(()=>window.remittancePresencePaint?.())}
 $('transfer-rows').addEventListener('input',e=>{const el=e.target;if(lock()||!el.matches('input'))return;const r=transferData.rows.find(v=>v.id===el.closest('tr').dataset.id);if(!r)return;const k=el.dataset.field;let v=el.value;if(k==='date')return; /* วันที่จัดการใน change */if(k==='na'||k==='transfer'){v=v.replace(/[^\d.,]/g,'').replace(/,/g,'');el.value=v}if(!r.date&&!r.entryDay&&['receipt','na','transfer'].includes(k)&&String(v).trim())r.entryDay=selected;if(k==='receipt'&&findDuplicate(v,r.id)){el.classList.add('invalid');$('duplicate-notice').textContent='⚠ เลขที่ใบเสร็จนี้มีอยู่แล้วในวันนี้ กรุณาตรวจสอบก่อนบันทึก';return}el.classList.remove('invalid');$('duplicate-notice').textContent='';r[k]=v;recalcTransfers();saveTransfer()});
 $('transfer-rows').addEventListener('change',e=>{if(!e.target.matches('input[data-field="date"]')||lock())return;const el=e.target,r=transferData.rows.find(v=>v.id===el.closest('tr').dataset.id);if(r){r.date=el.value;el.closest('td').querySelector('.thai-date-display').value=thaiDate(el.value);recalcTransfers();saveTransfer()}});
 $('transfer-rows').addEventListener('focusout',e=>{const el=e.target;if(el.matches('input[data-field="receipt"]')&&el.classList.contains('invalid')){const r=transferData.rows.find(v=>v.id===el.closest('tr').dataset.id);el.value=r?.receipt||'';el.classList.remove('invalid')}if(el.matches('input.money')&&el.value.trim())el.value=money(num(el.value))});
@@ -1728,7 +1736,7 @@ window.addEventListener('beforeprint',preparePrint);
  $('cloud-status')?.after(status);
  const sessionId=globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
  const getDay=()=>$('date')?.value || '';
- const myName=()=>String(cloudUser?.label || 'ผู้ใช้งาน').toUpperCase().slice(0,32);
+ const myName=()=>String(displayName(cloudUser?.label || 'ผู้ใช้งาน')).slice(0,32);
  const elDetails=el=>{
   if(!el?.matches?.('input[data-field]'))return null;
   const body=el.closest('#rows,#transfer-rows'), row=el.closest('tr[data-id]');
@@ -1752,7 +1760,7 @@ window.addEventListener('beforeprint',preparePrint);
    if(p.expires_at && Date.parse(p.expires_at)<now)continue;
    if(!['rows','transfer-rows'].includes(p.section))continue;
    if(!/^[a-zA-Z0-9_-]+$/.test(String(p.field||'')))continue;
-   const name=String(p.username||'USER').slice(0,32);names.add(name);
+   const name=String(displayName(p.username||'USER')).slice(0,32);names.add(name);
    const key=JSON.stringify([p.section,p.row_id,p.field]);cells.set(key,name);
   }
   for(const [key,name] of cells){
@@ -1934,13 +1942,13 @@ window.addEventListener('beforeprint',preparePrint);
 (()=>{
  const $=id=>document.getElementById(id), panel=$('online-users');
  const known=LOGIN_NAMES;
- const labelFor=name=>name;
+ const labelFor=name=>displayName(name);
  const key=globalThis.crypto?.randomUUID?.()||Date.now()+'-'+Math.random();
  let channel=null, identity=null, connected=false, synced=false, active=new Set(), retry=0;
  const nameOf=u=>String(u?.label||'').toUpperCase().slice(0,64);
  function paint(){
   const me=nameOf(identity);
-  const names=[...new Set([...known,...(me?[me]:[]),...active])].sort();
+  const names=connected&&synced?known.filter(name=>active.has(name)):[];
   const ready=connected&&synced, selfOn=ready&&active.has(me);
   $('ou-name').textContent=labelFor(me||'—',selfOn).replace(' (','\n(');
   $('ou-current-dot').classList.toggle('on',selfOn);
@@ -1962,7 +1970,7 @@ window.addEventListener('beforeprint',preparePrint);
   if(channel&&identity?.id===cloudUser.id)return;
   if(channel)void stop();identity=cloudUser;panel.hidden=false;connected=false;synced=false;active.clear();paint();
   const c=presenceChannel('remittance_online',key);channel=c;
-  function sync(){if(channel!==c)return;const names=new Set();for(const entries of Object.values(c.presenceState()||{})){for(const p of entries){if(typeof p.username==='string'&&p.username.trim())names.add(p.username.slice(0,64).toUpperCase())}}active=names;synced=true;paint()}
+  function sync(){if(channel!==c)return;const names=new Set();for(const entries of Object.values(c.presenceState()||{})){for(const p of entries){if(typeof p.username==='string'&&p.username.trim()){const name=p.username.slice(0,64).toUpperCase();if(known.includes(name))names.add(name)}}}active=names;synced=true;paint()}
   c.on('presence',{event:'sync'},sync).subscribe(async status=>{
    if(channel!==c)return;connected=status==='SUBSCRIBED';synced=false;active.clear();paint();
    if(connected){try{const result=await c.track({username:nameOf(identity)});if(channel!==c)return;if(result!=='ok'){connected=false;synced=false;paint();retry=Date.now()+10000;void stop()}}catch(e){if(channel===c){retry=Date.now()+10000;void stop()}}}
@@ -1997,7 +2005,7 @@ window.addEventListener('beforeprint',preparePrint);
 @media print {.action-strip{display:none!important}}
 </style>
 <style id="compact-header-v2">
-.cloud-toolbar,#online-users{display:none!important}
+.cloud-toolbar{display:none!important}
 .connection-inline{display:inline-flex;align-items:baseline;flex-wrap:nowrap;gap:5px;margin-left:6px;vertical-align:baseline;font-size:12px;font-weight:650;line-height:1.5;color:#53677a}
 #connection-state{display:inline-flex;align-items:center;gap:5px;color:#64748b}
 #connection-state::before{content:"";width:7px;height:7px;display:inline-block;border-radius:50%;background:#94a3b8;flex:none}
@@ -2051,4 +2059,7 @@ window.addEventListener('beforeprint',preparePrint);
   main.wrap > .workspace > .ledger-main {grid-column:2;grid-row:3;align-self:start;width:100%;}
 }
 </style>
-</body></html>
+<style id="restore-online-panel">
+@media screen and (min-width:1200px){main.wrap{grid-template-columns:280px minmax(0,1fr) 200px}main.wrap > .workspace > #online-users{grid-column:3;grid-row:2/4;position:sticky;top:18px;align-self:start}}
+@media screen and (min-width:921px) and (max-width:1199px){main.wrap > .workspace > #online-users{grid-column:2;grid-row:4;justify-self:end}}
+</style></body></html>
