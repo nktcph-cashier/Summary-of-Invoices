@@ -1254,18 +1254,20 @@ function ask(title,message,action){
 }
 $('cancel-confirm').onclick=()=>{$('confirm-modal').classList.remove('show');confirmed=null};
 $('accept-confirm').onclick=()=>{const action=confirmed;confirmed=null;$('confirm-modal').classList.remove('show');if(action)action()};
-// คัดลอกเฉพาะเล่มที่และรายการจากวันทำการก่อนหน้า (ไม่คัดลอกเลขที่ใบเสร็จรับเงินหรือยอดเงิน)
+// คัดลอกเล่มที่ รายการ และสัดส่วนช่องรายการจากวันทำการก่อนหน้า (ไม่คัดลอกเลขที่ใบเสร็จรับเงินหรือยอดเงิน)
 $('copy-previous').onclick=()=>{
  if(lock())return;
  const targetDay=selected;
  const prev=previousWorkday(targetDay);
  const source=prev && store[prev];
+ const sourceRatio=Number(source?.descriptionLeft);
+ const copiedRatio=Number.isFinite(sourceRatio)&&sourceRatio>=20&&sourceRatio<=80?sourceRatio:50;
  const copiedRows=(source?.rows||[])
   .map(r=>({book:String(r.book??''),description:String(r.description??''),description2:String(r.description2??'')}))
   .filter(r=>[r.book,r.description,r.description2].some(v=>v.trim()));
  if(!copiedRows.length){alert('ไม่พบข้อมูลเล่มที่หรือรายการในวันทำการก่อนหน้า ('+(prev||'ไม่พบวันที่')+')');return;}
  ask('คัดลอกเล่มที่และรายการ?',
-  'คัดลอกข้อมูล 2 ช่อง จำนวน '+copiedRows.length+' แถว จากวันที่ '+prev+' ลงในแถวว่างของตารางบน โดยไม่คัดลอกเลขที่ใบเสร็จรับเงินหรือยอดเงิน และไม่เปลี่ยนตารางรายละเอียดเงินโอน',()=>{
+  'คัดลอกข้อมูล 2 ช่อง จำนวน '+copiedRows.length+' แถว จากวันที่ '+prev+' ลงในแถวว่างของตารางบน พร้อมปรับสัดส่วนช่องรายการเป็น '+copiedRatio+':'+(100-copiedRatio)+' ทั้งตาราง โดยไม่คัดลอกเลขที่ใบเสร็จรับเงินหรือยอดเงิน และไม่เปลี่ยนตารางรายละเอียดเงินโอน',()=>{
    if(lock()||selected!==targetDay)return;
    const emptyRows=state.rows.filter(r=>
     ['book','receipt','description','description2','cash','transfer'].every(k=>!String(r[k]??'').trim()));
@@ -1276,7 +1278,10 @@ $('copy-previous').onclick=()=>{
     row.description=data.description;
     row.description2=data.description2;
    });
-   renderRows();persist();
+   state.descriptionLeft=copiedRatio;
+   renderRows();
+   window.remittanceDescriptionSetForDay?.(targetDay,state.descriptionLeft);
+   persist();
   });
 };
 // วันที่ในคอลัมน์วันที่เริ่มกลุ่มใหม่; แถวที่เว้นวันที่สืบทอดวันที่ของกลุ่มก่อนหน้า
