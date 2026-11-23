@@ -727,7 +727,16 @@ body.auth-checking .cloud-auth .cloud-login{display:none!important}
 <tr class="sender-row"><td colspan="7"><div class="sender-picker-wrap"><label for="sender-name">ผู้นำส่งเงิน</label><select class="sender-picker" id="sender-name" aria-label="เลือกผู้นำส่งเงิน"><option value="">— เลือกชื่อผู้นำส่งเงิน —</option><option value="นายณรงค์ศักดิ์  เชื้อบุญมี">นายณรงค์ศักดิ์  เชื้อบุญมี</option><option value="นางสาวณัฐนันท์  นวลจันทร์เพ็ญ">นางสาวณัฐนันท์  นวลจันทร์เพ็ญ</option><option value="นางสาวเกวลิน  ยวนแห่ว">นางสาวเกวลิน  ยวนแห่ว</option></select></div></td></tr>
 </tfoot></table></div><div class="transfer-notice" id="duplicate-notice" role="alert" aria-live="polite"></div></section>
 <div class="below">● ทุกบัญชีที่ได้รับอนุญาตใช้ฐานข้อมูลกลางเดียวกัน • บันทึกแล้วเครื่องอื่นจะเห็นโดยอัตโนมัติ • หากแก้ตารางเดียวกันพร้อมกัน ข้อมูลที่บันทึกทีหลังอาจทับการแก้ไขก่อนหน้า • วัน/เวลาที่ล็อกยังต้องปลดล็อกก่อนแก้ไข</div>
-</div><aside class="sidebar"><div class="sidebar-head"><div class="eyebrow period-heading"><span>เลือกช่วงเวลา</span><span class="connection-inline" role="status" aria-live="polite"><span id="connection-state" data-state="waiting">กำลังเชื่อมต่อ…</span><span class="connection-separator" aria-hidden="true">·</span><span id="online-inline">ออนไลน์ —</span></span></div><h2>เลือกเดือนและวันที่</h2><label for="year">ปี พ.ศ.</label><div class="year-controls"><button id="prev-year">‹</button><input id="year" type="number" min="2400" max="2900"><button id="next-year">›</button></div></div><nav class="month-list" id="months"></nav><p class="holiday-caveat" id="holiday-caveat" style="padding:0 15px 10px;margin:0;font-size:11px;color:#5b6772;line-height:1.6">ชมพู = เสาร์–อาทิตย์ • แดง = วันหยุดราชการ • ทุกวันบันทึกข้อมูลได้</p><div class="annual-summary"><strong>สรุปยอดทั้งปี</strong><small>เงินสด</small><strong id="annual-cash">0.00</strong><small>นำฝาก/โอน</small><strong id="annual-transfer">0.00</strong><small>รวม</small><strong id="annual-total">0.00</strong><button class="btn" id="export-year">⇩ ส่งออก CSV ทั้งปี</button></div></aside><aside id="online-users" aria-label="สถานะผู้ใช้งาน" hidden><div class="ou-panel"><div class="ou-current"><span id="ou-current-dot" class="ou-dot"></span><div class="ou-detail"><small>ผู้ใช้ปัจจุบัน</small><strong id="ou-name">—</strong><span id="ou-current-state" class="ou-state">รอตรวจสอบ</span></div></div><div class="ou-header"><div class="ou-heading">ผู้ใช้งานออนไลน์</div><div id="ou-count">—</div></div><div id="ou-list"></div><div id="ou-connection" role="status">กำลังเชื่อมต่อ Realtime…</div></div></aside></div>
+</div><aside class="sidebar"><div class="sidebar-head"><div class="eyebrow period-heading"><span>เลือกช่วงเวลา</span><span class="connection-inline" role="status" aria-live="polite"><span id="connection-state" data-state="waiting">กำลังเชื่อมต่อ…</span><span class="connection-separator" aria-hidden="true">·</span><span id="online-inline">ออนไลน์ —</span></span></div><h2>เลือกเดือนและวันที่</h2><label for="year">ปี พ.ศ.</label><div class="year-controls"><button id="prev-year">‹</button><input id="year" type="number" min="2400" max="2900"><button id="next-year">›</button></div></div><nav class="month-list" id="months"></nav><p class="holiday-caveat" id="holiday-caveat" style="padding:0 15px 10px;margin:0;font-size:11px;color:#5b6772;line-height:1.6">ชมพู = เสาร์–อาทิตย์ • แดง = วันหยุดราชการ • ทุกวันบันทึกข้อมูลได้</p><div class="annual-summary"><strong>สรุปยอดทั้งปี</strong><small>เงินสด</small><strong id="annual-cash">0.00</strong><small>นำฝาก/โอน</small><strong id="annual-transfer">0.00</strong><small>รวม</small><strong id="annual-total">0.00</strong><button class="btn" id="export-year">⇩ ส่งออก CSV ทั้งปี</button></div></aside><div id="right-widgets" aria-label="แผงด้านขวา"><aside id="online-users" aria-label="สถานะผู้ใช้งาน" hidden><div class="ou-panel"><div class="ou-current"><span id="ou-current-dot" class="ou-dot"></span><div class="ou-detail"><small>ผู้ใช้ปัจจุบัน</small><strong id="ou-name">—</strong><span id="ou-current-state" class="ou-state">รอตรวจสอบ</span></div></div><div class="ou-header"><div class="ou-heading">ผู้ใช้งานออนไลน์</div><div id="ou-count">—</div></div><div id="ou-list"></div><div id="ou-connection" role="status">กำลังเชื่อมต่อ Realtime…</div></div></aside>
+<details id="book-transfer-summary" class="book-summary" open>
+  <summary class="book-summary-head"><span>สรุปยอดเงินโอนตามเล่ม</span><span aria-hidden="true" class="book-chevron">⌄</span></summary>
+  <div class="book-summary-content">
+    <div id="book-summary-day" class="book-summary-day"></div>
+    <div id="book-summary-list" class="book-summary-list" aria-live="polite">กำลังอ่านข้อมูล…</div>
+    <div class="book-summary-footer"><span>รวมทุกรายการ</span><strong id="book-summary-total">0.00 บาท</strong></div>
+    <div class="book-summary-note">ยอดรวม = N/A + โอน • อ้างอิงตารางรายละเอียดเงินโอนของวันที่เลือก</div>
+  </div>
+</details></div></div>
 </main><div id="print-document" aria-hidden="true"></div><div class="modal" id="confirm-modal"><div class="dialog"><h3 id="confirm-title"></h3><p id="confirm-text"></p><div class="dialog-actions"><button class="btn" id="cancel-confirm">ยกเลิก</button><button class="btn primary" id="accept-confirm">ยืนยัน</button></div></div></div><div class="logout-overlay" id="refresh-overlay" role="presentation" hidden>
   <div class="logout-dialog" role="alertdialog" aria-modal="true" aria-labelledby="refresh-title">
     <h3 id="refresh-title">ยืนยัน</h3>
@@ -1299,6 +1308,7 @@ window.addEventListener('pagehide',()=>{if(cloudPending.size)cloudFlush().catch(
 const KEY='cash_remittance_index_blank_v1',MONTHS=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
 const $=id=>document.getElementById(id);const pad=n=>String(n).padStart(2,'0');const money=n=>(Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});const num=s=>Math.max(0,Number(String(s||'').replace(/,/g,''))||0);const blank=()=>({rows:Array.from({length:6},()=>({id:crypto.randomUUID?crypto.randomUUID():String(Math.random()),book:'',receipt:'',description:'',description2:'',cash:'',transfer:''})),locked:false});
 let transferData=null,activeTransferSlot='';
+window.remittanceBookSummaryData=()=>({day:selected,rows:transferData?.rows||[]});
 let store={};try{const v=JSON.parse(localStorage.getItem(KEY));if(v&&typeof v==='object'&&!Array.isArray(v))store=v}catch(e){}
 const now=new Date();let selected=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;let state;
 // วันหยุดราชการไทยปี 2569 (ค.ศ. 2026) อ้างอิงปฏิทินราชการ; วันหยุดเฉพาะ กทม. ไม่รวมในปฏิทินทั่วประเทศ
@@ -1583,7 +1593,7 @@ function calcTransferGroups(){
  if(current&&current.indices.length)groups.push(current);
  return groups;
 }
-function recalcTransfers(){const {na,transfer,combined}=transferFigures();$('sum-na').textContent=money(na);$('sum-qr').textContent=money(na);$('sum-transfers').textContent=money(combined);renderTotals();
+function recalcTransfers(){window.remittanceBookSummaryPaint?.();const {na,transfer,combined}=transferFigures();$('sum-na').textContent=money(na);$('sum-qr').textContent=money(na);$('sum-transfers').textContent=money(combined);renderTotals();
 const cells=Array.from(document.querySelectorAll('#transfer-rows tr'));
 for(const tr of cells){tr.querySelector('.qr-output').textContent='';tr.querySelector('.note-output').textContent='';tr.classList.remove('new-date-group')}
 // เริ่มกลุ่มวันที่ใหม่ด้วยเส้นคั่น และสรุป N/A ไว้แถวสุดท้ายของแต่ละกลุ่ม
@@ -2151,6 +2161,97 @@ window.addEventListener('beforeprint',preparePrint);
 })();
 </script>
 
+<style id="book-transfer-summary-style">
+/* The two cards are sibling panels, not a nested online status widget. */
+#right-widgets{display:flex;flex-direction:column;align-self:start;gap:16px;min-width:0;width:100%;font-size:13px}
+#right-widgets #online-users{width:100%;min-width:0;max-width:none;position:static;overflow:visible;display:flex;flex-direction:column}
+#right-widgets #online-users[hidden]{display:none!important}
+#right-widgets .ou-panel,#book-transfer-summary{background:#fff;border:1px solid #dce3eb;border-radius:15px;box-shadow:0 3px 14px #15304712}
+#book-transfer-summary{width:100%;box-sizing:border-box;overflow:hidden;color:#153047}
+#book-transfer-summary .book-summary-head{list-style:none;cursor:pointer;padding:15px 13px;display:flex;align-items:center;justify-content:space-between;gap:7px;font-weight:800;font-size:13px;color:#304b70;user-select:none;background:#f7faff}
+#book-transfer-summary .book-summary-head::-webkit-details-marker{display:none}
+#book-transfer-summary .book-chevron{font-size:19px;line-height:1;transition:transform .15s}
+#book-transfer-summary[open] .book-chevron{transform:rotate(180deg)}
+#book-transfer-summary .book-summary-content{padding:13px}
+#book-transfer-summary .book-summary-day{font-size:12px;color:#63778b;margin:0 0 11px}
+#book-transfer-summary .book-summary-list{display:grid;gap:10px;max-height:min(55vh,500px);overflow-y:auto}
+#book-transfer-summary .book-summary-item{border:1px solid #e0e7f0;background:#fff;border-radius:11px;padding:12px}
+#book-transfer-summary .book-summary-item-title{font-weight:800;color:#24415b;font-size:14px;overflow-wrap:anywhere;margin-bottom:8px}
+#book-transfer-summary .book-summary-item-line{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:13px;margin-top:7px;color:#607285}
+#book-transfer-summary .book-summary-item-line strong{white-space:nowrap;color:#203b4f;font-variant-numeric:tabular-nums;font-size:13px}
+#book-transfer-summary .book-summary-item-line.total{border-top:1px solid #e7edf3;padding-top:9px;margin-top:10px;color:#c62828;font-weight:800}
+#book-transfer-summary .book-summary-item-line.total strong{color:#c62828;font-size:14px;font-weight:800}
+#book-transfer-summary .book-summary-footer{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:13px;padding-top:13px;border-top:1px solid #d1dfec;font-weight:800;color:#c62828;font-size:12px}
+#book-transfer-summary .book-summary-footer strong{color:#c62828;font-weight:800;white-space:nowrap;font-size:15px;font-variant-numeric:tabular-nums}
+#book-transfer-summary .book-summary-note{font-size:11px;color:#6a7b8a;line-height:1.6;margin-top:10px}
+#book-transfer-summary .book-summary-empty{font-size:12px;color:#718397;padding:12px 2px;line-height:1.6}
+@media screen and (min-width:1200px){
+  .workspace{grid-template-columns:280px minmax(0,1fr) 280px}
+  .workspace>#right-widgets{grid-column:3;grid-row:1}
+  main.wrap{grid-template-columns:280px minmax(0,1fr) 280px!important;max-width:1790px}
+  main.wrap > .workspace > #right-widgets{grid-column:3;grid-row:2/4;position:sticky;top:18px;max-height:calc(100vh - 36px);overflow-y:auto;align-self:start}
+}
+@media screen and (min-width:921px) and (max-width:1199px){
+  .workspace>#right-widgets{grid-column:2;grid-row:2;justify-self:end;width:min(340px,100%)}
+  main.wrap > .workspace > #right-widgets{grid-column:2;grid-row:4;justify-self:end;width:min(340px,100%)}
+}
+@media screen and (max-width:920px){
+  .workspace>#right-widgets{order:2;align-self:stretch;width:100%;max-width:420px;margin-inline:auto}
+}
+@media print{#right-widgets{display:none!important}}
+</style>
+<script id="book-transfer-summary-script">
+(()=>{'use strict';
+ const dateNode=document.getElementById('book-summary-day');
+ const listNode=document.getElementById('book-summary-list');
+ const totalNode=document.getElementById('book-summary-total');
+ const bookFromReceipt=raw=>{
+  const value=String(raw||'').trim();
+  if(!value)return null;
+  // เล่มที่ 123 / เลขที่ 456, 123/456 หรือ 123-456
+  let match=value.match(/(?:เล่ม(?:ที่)?\s*[:：]?\s*)([0-9๐-๙A-Za-z]+)(?=\s|[\/\-]|$)/i);
+  if(match)return match[1];
+  match=value.match(/^([0-9๐-๙A-Za-z]+)\s*[\/\-]\s*[0-9๐-๙A-Za-z]+/);
+  return match?match[1]:null;
+ };
+ const cash=value=>{const n=Number(String(value??'').replace(/,/g,''));return Number.isFinite(n)&&n>0?n:0};
+ const baht=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+ const row=(label,amount,isTotal=false)=>{
+  const item=document.createElement('div');item.className='book-summary-item-line'+(isTotal?' total':'');
+  const l=document.createElement('span');l.textContent=label;
+  const v=document.createElement('strong');v.textContent=baht(amount);
+  item.append(l,v);return item;
+ };
+ function paint(){
+  if(!dateNode||!listNode||!totalNode)return;
+  const view=window.remittanceBookSummaryData?.();
+  if(!view){listNode.textContent='กำลังโหลดข้อมูล…';totalNode.textContent='—';return;}
+  dateNode.textContent='วันที่บันทึก: '+(view.day||'—');
+  const totals=new Map();
+  for(const entry of view.rows||[]){
+   const na=cash(entry.na),transfer=cash(entry.transfer);
+   if(!(na||transfer))continue;
+   const book=bookFromReceipt(entry.receipt)||'ไม่ระบุเล่ม';
+   const old=totals.get(book)||{na:0,transfer:0,count:0};
+   old.na+=na;old.transfer+=transfer;old.count++;
+   totals.set(book,old);
+  }
+  listNode.replaceChildren();
+  let grand=0;
+  const sorted=[...totals.entries()].sort((a,b)=>a[0]==='ไม่ระบุเล่ม'?1:b[0]==='ไม่ระบุเล่ม'?-1:a[0].localeCompare(b[0],'th',{numeric:true}));
+  if(!sorted.length){const empty=document.createElement('div');empty.className='book-summary-empty';empty.textContent='ยังไม่มีรายการเงินโอนในวันที่เลือก';listNode.append(empty)}
+  for(const [book,val] of sorted){
+   const item=document.createElement('div');item.className='book-summary-item';
+   const title=document.createElement('div');title.className='book-summary-item-title';title.textContent=book==='ไม่ระบุเล่ม'?book:'เล่มที่ '+book;
+   item.append(title,row('N/A',val.na),row('โอน',val.transfer),row('รวมเล่มนี้',val.na+val.transfer,true));
+   listNode.append(item);grand+=val.na+val.transfer;
+  }
+  totalNode.textContent=baht(grand)+' บาท';
+ }
+ window.remittanceBookSummaryPaint=paint;
+ paint();
+})();
+</script>
 <style id="aligned-actions-sticky-users">
 @media screen {
   .top {display:grid;grid-template-columns:minmax(0,1fr);gap:15px;align-items:center;}
