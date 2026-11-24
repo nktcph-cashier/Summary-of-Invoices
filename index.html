@@ -2254,7 +2254,7 @@ window.addEventListener('beforeprint',preparePrint);
   }
   listNode.replaceChildren();
   let grand=0, grandReceipt=0, grandTransfer=0;
-  const sorted=[...totals.entries()].sort((a,b)=>a[0]==='ไม่ระบุเล่ม'?1:b[0]==='ไม่ระบุเล่ม'?-1:a[0].localeCompare(b[0],'th',{numeric:true}));
+  const sorted=[...totals.entries()].filter(([,val])=>val.receipt!==0||val.na!==0||val.transfer!==0).sort((a,b)=>a[0]==='ไม่ระบุเล่ม'?1:b[0]==='ไม่ระบุเล่ม'?-1:a[0].localeCompare(b[0],'th',{numeric:true}));
   if(!sorted.length){const empty=document.createElement('div');empty.className='book-summary-empty';empty.textContent='ยังไม่มีรายการใบเสร็จหรือเงินโอนในวันที่เลือก';listNode.append(empty)}
   for(const [book,val] of sorted){
    const item=document.createElement('div');item.className='book-summary-item';
